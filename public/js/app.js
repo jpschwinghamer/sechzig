@@ -3,7 +3,44 @@
   window.sechzig || (window.sechzig = {});
 
   sechzig.backing = {
-    initialize: function() {}
+    initialize: function() {},
+    setStickyScene: function(scene) {
+      this.backing = scene.object.find('.backing');
+      switch (scene.sticky) {
+        case "top":
+          if (scene.top <= sechzig.scroll.scrollTop && scene.bottom >= sechzig.scroll.scrollBottom) {
+            this.backing.css({
+              'position': 'fixed',
+              'top': 0,
+              'bottom': 'auto'
+            });
+          }
+          if (scene.top >= sechzig.scroll.scrollTop) {
+            this.backing.css({
+              'position': 'static'
+            });
+          }
+          if (scene.bottom <= sechzig.scroll.scrollBottom) {
+            return this.backing.css({
+              'position': 'absolute',
+              'bottom': 0,
+              'top': 'auto'
+            });
+          }
+          break;
+        case "bottom":
+          if (scene.top <= sechzig.scroll.scrollBottom) {
+            return scene.object.find('.backing').css({
+              'position': 'fixed',
+              'bottom': 0
+            });
+          } else {
+            return scene.object.find('.backing').css({
+              'position': 'static'
+            });
+          }
+      }
+    }
   };
 
   $(function() {
@@ -190,6 +227,24 @@
         }
       }
       return sectionMovements;
+    },
+    getBlockingProgress: function(scene) {
+      var i, len, movement, ref, results;
+      ref = scene.blocking;
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        movement = ref[i];
+        movement.startPixel = (movement.startTime * scene.duration) + scene.top;
+        movement.finishPixel = (movement.finishTime * scene.duration) + scene.top;
+        movement.totalPixels = movement.finishPixel - movement.startPixel;
+        movement.progress = (sechzig.scroll.scrollBottom - movement.startPixel) / movement.totalPixels;
+        if (movement.progress >= 0 && movement.progress <= 1) {
+          results.push(sechzig.movement.animateMovement(scene, movement));
+        } else {
+          results.push(void 0);
+        }
+      }
+      return results;
     }
   };
 
@@ -246,6 +301,44 @@
     return sechzig.resize.initialize();
   });
 
+  sechzig.scene = {
+    initialize: function() {
+      return sechzig.raf.onScroll(sechzig.scene.monitorScenes);
+    },
+    monitorScenes: function() {
+      var i, len, ref, results, scene;
+      ref = sechzig.stage.scenes;
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        scene = ref[i];
+        if (sechzig.scene.sceneIsActive(scene)) {
+          scene.sceneIsActive = true;
+          results.push(sechzig.scene.directActiveScenes(scene));
+        } else {
+          results.push(scene.sceneIsActive = false);
+        }
+      }
+      return results;
+    },
+    sceneIsActive: function(scene) {
+      return (sechzig.scroll.scrollTop >= scene.top && sechzig.scroll.scrollTop <= scene.bottom) || (sechzig.scroll.scrollBottom >= scene.top && sechzig.scroll.scrollBottom <= scene.bottom);
+    },
+    directActiveScenes: function(scene) {
+      sechzig.scene.getSceneProgress(scene);
+      sechzig.blocking.getBlockingProgress(scene);
+      if (scene.sticky !== false) {
+        return sechzig.backing.setStickyScene(scene);
+      }
+    },
+    getSceneProgress: function(scene) {
+      return scene.progress = Math.max(Math.min((sechzig.scroll.scrollBottom - scene.top) / scene.duration, 1), 0);
+    }
+  };
+
+  $(function() {
+    return sechzig.scene.initialize();
+  });
+
   sechzig.scroll = {
     initialize: function() {
       this.scrollTop = 0;
@@ -266,7 +359,7 @@
       sechzig.scroll.scrollHeight = $(window).height();
       sechzig.scroll.scrollBottom = sechzig.scroll.scrollTop + sechzig.scroll.scrollHeight;
       sechzig.stage.arrangeScenes();
-      return sechzig.stage.monitorScenes();
+      return sechzig.scene.monitorScenes();
     }
   };
 
@@ -276,9 +369,7 @@
 
   sechzig.stage = {
     initialize: function() {
-      this.arrangeScenes();
-      this.monitorScenes();
-      return sechzig.raf.onScroll(sechzig.stage.monitorScenes);
+      return this.arrangeScenes();
     },
     arrangeScenes: function() {
       this.scenes = [];
@@ -299,100 +390,25 @@
         };
         return sechzig.stage.scenes.push(scenesHash);
       });
-    },
-    monitorScenes: function() {
-      var i, len, ref, results, scene;
-      ref = sechzig.stage.scenes;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        scene = ref[i];
-        if (sechzig.stage.sceneIsActive(scene)) {
-          scene.sceneIsActive = true;
-          results.push(sechzig.stage.directActiveScenes(scene));
-        } else {
-          results.push(scene.sceneIsActive = false);
-        }
-      }
-      return results;
-    },
-    sceneIsActive: function(scene) {
-      return (sechzig.scroll.scrollTop >= scene.top && sechzig.scroll.scrollTop <= scene.bottom) || (sechzig.scroll.scrollBottom >= scene.top && sechzig.scroll.scrollBottom <= scene.bottom);
-    },
-    directActiveScenes: function(scene) {
-      sechzig.stage.getSceneProgress(scene);
-      sechzig.stage.getBlockingProgress(scene);
-      if (scene.sticky !== false) {
-        return sechzig.stage.setStickyScene(scene);
-      }
-    },
-    getSceneProgress: function(scene) {
-      return scene.progress = Math.max(Math.min((sechzig.scroll.scrollBottom - scene.top) / scene.duration, 1), 0);
-    },
-    getBlockingProgress: function(scene) {
-      var i, len, movement, ref, results;
-      ref = scene.blocking;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        movement = ref[i];
-        movement.startPixel = (movement.startTime * scene.duration) + scene.top;
-        movement.finishPixel = (movement.finishTime * scene.duration) + scene.top;
-        movement.totalPixels = movement.finishPixel - movement.startPixel;
-        movement.progress = (sechzig.scroll.scrollBottom - movement.startPixel) / movement.totalPixels;
-        if (movement.progress >= 0 && movement.progress <= 1) {
-          results.push(sechzig.stage.animateMovement(scene, movement));
-        } else {
-          results.push(void 0);
-        }
-      }
-      return results;
-    },
-    animateMovement: function(scene, movement) {
-      return $("#" + scene.id + " " + movement.character).css({
-        'opacity': movement.finishValues.opacity * movement.progress + movement.startValues.opacity,
-        'transform': "translate3d( " + (movement.finishValues.translateX * movement.progress + movement.startValues.translateX) + "vw, " + (movement.finishValues.translateY * movement.progress + movement.startValues.translateY) + "vh, 0) rotate( " + (movement.finishValues.rotate * movement.progress + movement.startValues.rotate) + "deg)"
-      });
-    },
-    setStickyScene: function(scene) {
-      this.blocking = scene.object.find('.blocking');
-      switch (scene.sticky) {
-        case "top":
-          if (scene.top <= sechzig.scroll.scrollTop && scene.bottom >= sechzig.scroll.scrollBottom) {
-            this.blocking.css({
-              'position': 'fixed',
-              'top': 0,
-              'bottom': 'auto'
-            });
-          }
-          if (scene.top >= sechzig.scroll.scrollTop) {
-            this.blocking.css({
-              'position': 'static'
-            });
-          }
-          if (scene.bottom <= sechzig.scroll.scrollBottom) {
-            return this.blocking.css({
-              'position': 'absolute',
-              'bottom': 0,
-              'top': 'auto'
-            });
-          }
-          break;
-        case "bottom":
-          if (scene.top <= sechzig.scroll.scrollBottom) {
-            return scene.object.find('.blocking').css({
-              'position': 'fixed',
-              'bottom': 0
-            });
-          } else {
-            return scene.object.find('.blocking').css({
-              'position': 'static'
-            });
-          }
-      }
     }
   };
 
   $(function() {
     return sechzig.stage.initialize();
+  });
+
+  sechzig.movement = {
+    initialize: function() {},
+    animateMovement: function(scene, movement) {
+      return $("#" + scene.id + " " + movement.character).css({
+        'opacity': movement.finishValues.opacity * movement.progress + movement.startValues.opacity,
+        'transform': "translate3d( " + (movement.finishValues.translateX * movement.progress + movement.startValues.translateX) + "vw, " + (movement.finishValues.translateY * movement.progress + movement.startValues.translateY) + "vh, 0) rotate( " + (movement.finishValues.rotate * movement.progress + movement.startValues.rotate) + "deg)"
+      });
+    }
+  };
+
+  $(function() {
+    return sechzig.movement.initialize();
   });
 
 }).call(this);

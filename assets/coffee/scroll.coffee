@@ -19,7 +19,7 @@ sechzig.scroll =
     # TODO - figure out how to better manage the sequencing here
     # Probably shouldn't be calling these here
     sechzig.stage.arrangeScenes()
-    sechzig.stage.monitorScenes()
+    sechzig.scene.monitorScenes()
 
 $ ->
   sechzig.scroll.initialize()
