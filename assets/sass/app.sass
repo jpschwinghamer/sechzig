@@ -3,18 +3,18 @@
   padding: 0
   box-sizing: border-box
 
-$blue: desaturate(#105B63, 20%)
-$cream: desaturate(#FFFAD5, 20%)
-$yellow: desaturate(#FFD34E, 20%)
-$gold: desaturate(#DB9E36, 20%)
-$red: desaturate(#BD4932, 20%)
+$blue: #aaa
+$cream: #bbb
+$yellow: #ccc
+$gold: #ddd
+$red: #eee
 
 html
   background-color: $cream
 
 section
   height: 100vh
-  overflow: hidden
+  opacity: 1
   position: relative
   z-index: 2
   &:nth-child(5n+1)
@@ -27,20 +27,14 @@ section
     background-color: $gold
   &:nth-child(5n+5)
     background-color: $red
-  &.scene-one
-    .blocking
-      position: fixed
-      left: 0
-      top: 0
-  &.scene-two,
   &.scene-six
-    height: 300vh
+    height: 200vh
   &.scene-three
     height: 200vh
-  &.scene-four
-    .character
-      height: 100vh
-      width: 50vw
+  &.upper
+    z-index: 3
+  &.lower
+    z-index: 1
   .blocking
     height: 100vh
     width: 100vw
@@ -48,19 +42,22 @@ section
     flex-direction: column
     justify-content: center
     align-items: center
+    padding: 10px 0
+  .backing
+    will-change: position
   .unit
     will-change: opacity, transform
     transform: translate3d(0,0,0)
     width: 50vw
-    height: 50vh
     display: flex
-    > *
-      margin: 0 1vw
+    flex-flow: row wrap
+    justify-content: center
+    align-items: center
   .character
     will-change: opacity, transform
-    transform: translate3d(0,0,0)
-    width: 25vw
-    height: 50vh
+    width: 80px
+    height: 80px
+    margin: 10px
 
   .thing
     background-color: $red
@@ -72,11 +69,3 @@ section
     background-color: $blue
   .thong
     background-color: $cream
-
-video
-  position: absolute
-  left: 50%
-  top: 50%
-  min-width: 100vw
-  min-height: 100vh
-  transform: translate3d(-50%,-50%,0)

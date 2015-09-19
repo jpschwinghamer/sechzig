@@ -5,31 +5,46 @@ sechzig.backing =
       @backing = scene.object.find('.backing')
       switch scene.sticky
         when "top"
-          if scene.top <= sechzig.scroll.scrollTop and scene.bottom >= sechzig.scroll.scrollBottom
+          if sechzig.scroll.scrollTop < scene.top
             @backing.css({
-              'position': 'fixed',
-              'top' : 0,
-              'bottom': 'auto',
-            })
-          if scene.top >= sechzig.scroll.scrollTop
-            @backing.css({
-              'position': 'static'
-            })
-          if scene.bottom <= sechzig.scroll.scrollBottom
-            @backing.css({
-            'position': 'absolute',
-            'bottom': 0,
-            'top': 'auto'
-            })
+              'position' : 'static',
+              'bottom' : 0,
+              'top' : 0
+              })
+          else
+            if sechzig.scroll.scrollBottom <= scene.bottom
+              @backing.css({
+                'position' : 'fixed',
+                'bottom' : 'auto',
+                'top' : 0
+                })
+            else
+              @backing.css({
+                'position' : 'absolute',
+                'bottom' : 0,
+                'top' : 'auto'
+                })
 
         when "bottom"
-          if scene.top <= sechzig.scroll.scrollBottom
-            scene.object.find('.backing').css({
-              'position' : 'fixed',
-              'bottom' : 0
-            })
+          if sechzig.scroll.scrollBottom < scene.top
+            @backing.css({
+              'position' : 'static',
+              'bottom' : 0,
+              'top' : 0
+              })
           else
-            scene.object.find('.backing').css({'position' : 'static'})
+            if sechzig.scroll.scrollBottom <= scene.bottom
+              @backing.css({
+                'position' : 'fixed',
+                'bottom' : 'auto',
+                'top' : 0
+                })
+            else
+              @backing.css({
+                'position' : 'absolute',
+                'bottom' : '0',
+                'top' : 'auto'
+                })
 
 $ ->
   sechzig.backing.initialize()

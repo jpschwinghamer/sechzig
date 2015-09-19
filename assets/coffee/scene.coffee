@@ -4,6 +4,7 @@ sechzig.scene =
 
   monitorScenes: ->
     for scene in sechzig.stage.scenes
+      sechzig.backing.setStickyScene(scene) unless scene.sticky == false
       if sechzig.scene.sceneIsActive(scene)
         scene.sceneIsActive = true
         sechzig.scene.directActiveScenes(scene)
@@ -17,7 +18,6 @@ sechzig.scene =
   directActiveScenes: (scene) ->
     sechzig.scene.getSceneProgress(scene)
     sechzig.blocking.getBlockingProgress(scene)
-    sechzig.backing.setStickyScene(scene) unless scene.sticky == false
 
   getSceneProgress: (scene) ->
     scene.progress = Math.max(Math.min((sechzig.scroll.scrollBottom - scene.top)/scene.duration, 1), 0)
