@@ -10,7 +10,7 @@
         case "top":
           if (sechzig.scroll.scrollTop < scene.top) {
             return this.backing.css({
-              'position': 'static',
+              'position': 'relative',
               'bottom': 0,
               'top': 0
             });
@@ -33,7 +33,7 @@
         case "bottom":
           if (sechzig.scroll.scrollBottom < scene.top) {
             return this.backing.css({
-              'position': 'static',
+              'position': 'relative',
               'bottom': 0,
               'top': 0
             });
@@ -65,32 +65,15 @@
       var movement;
       return this.movements = [
         movement = {
-          'section': 'scene-one',
-          'character': ".thang",
-          'startTime': 0.5,
-          'finishTime': 0.9,
+          'section': 'scene-three',
+          'character': ".character",
+          'startTime': 0,
+          'finishTime': 0.5,
           'startValues': {
-            'opacity': 1,
-            'translateY': 0
+            'scale': 3
           },
           'finishValues': {
-            'opacity': -1.75,
-            'translateY': -50
-          }
-        }, movement = {
-          'section': 'scene-one',
-          'character': ".theng",
-          'startTime': 0.5,
-          'finishTime': 0.9,
-          'startValues': {
-            'opacity': 1,
-            'translateY': 0,
-            'scale': 1
-          },
-          'finishValues': {
-            'opacity': -1.75,
-            'translateY': -100,
-            'scale': 2
+            'scale': -2
           }
         }
       ];

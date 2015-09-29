@@ -3,69 +3,29 @@
   padding: 0
   box-sizing: border-box
 
-$blue: #aaa
-$cream: #bbb
-$yellow: #ccc
-$gold: #ddd
-$red: #eee
-
-html
-  background-color: $cream
-
-section
-  height: 100vh
-  opacity: 1
+.scene
   position: relative
+  overflow: hidden
+  height: 100vh
   z-index: 2
-  &:nth-child(5n+1)
-    background-color: $cream
-  &:nth-child(5n+2)
-    background-color: $yellow
-  &:nth-child(5n+3)
-    background-color: $cream
-  &:nth-child(5n+4)
-    background-color: $gold
-  &:nth-child(5n+5)
-    background-color: $red
-  &.scene-six
-    height: 200vh
-  &.scene-three
-    height: 200vh
-  &.upper
-    z-index: 3
-  &.lower
-    z-index: 1
+  &:nth-child(odd)
+    background-color: #ddd
+  .marker
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%,-50%)
   .blocking
     height: 100vh
     width: 100vw
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-    padding: 10px 0
+    position: relative
   .backing
-    will-change: position
-  .unit
-    will-change: opacity, transform
-    transform: translate3d(0,0,0)
-    width: 50vw
-    display: flex
-    flex-flow: row wrap
-    justify-content: center
-    align-items: center
+    will-change: transform
   .character
     will-change: opacity, transform
-    width: 80px
-    height: 80px
-    margin: 10px
-
-  .thing
-    background-color: $red
-  .thang
-    background-color: $gold
-  .thung
-    background-color: $yellow
-  .theng
-    background-color: $blue
-  .thong
-    background-color: $cream
+    width: 25vh
+    height: 25vh
+    background-color: #aaa
+  &.scene-three,
+  &.scene-four
+    height: 300vh

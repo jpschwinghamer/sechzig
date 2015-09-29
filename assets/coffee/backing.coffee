@@ -7,7 +7,7 @@ sechzig.backing =
         when "top"
           if sechzig.scroll.scrollTop < scene.top
             @backing.css({
-              'position' : 'static',
+              'position' : 'relative',
               'bottom' : 0,
               'top' : 0
               })
@@ -28,7 +28,7 @@ sechzig.backing =
         when "bottom"
           if sechzig.scroll.scrollBottom < scene.top
             @backing.css({
-              'position' : 'static',
+              'position' : 'relative',
               'bottom' : 0,
               'top' : 0
               })
