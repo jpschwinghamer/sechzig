@@ -42,3 +42,22 @@
   width: 25vh;
   height: 25vh;
 }
+/* line 29, ../../assets/sass/app.sass */
+.scene.scene-four {
+  height: 400vh;
+}
+/* line 31, ../../assets/sass/app.sass */
+.scene .row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+/* line 33, ../../assets/sass/app.sass */
+.scene .row > * {
+  margin: 2vh;
+}
+/* line 35, ../../assets/sass/app.sass */
+.scene .thing {
+  opacity: 0;
+}
