@@ -1,6 +1,6 @@
 sechzig.scene =
   initialize: ->
-    sechzig.raf.onScroll(sechzig.scene.monitorScenes)
+    sechzig.raf.register(sechzig.scene.monitorScenes)
 
   monitorScenes: ->
     for scene in sechzig.stage.scenes

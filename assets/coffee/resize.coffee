@@ -11,7 +11,7 @@ sechzig.resize =
     $.each @callbacks, ->
       @call()
 
-  onResize: (callback) ->
+  register: (callback) ->
     @callbacks.push callback
 
 $ ->
