@@ -5,13 +5,13 @@ sechzig.scene =
   monitorScenes: ->
     for scene in sechzig.stage.scenes
       sechzig.backing.setStickyScene(scene) unless scene.sticky == false
-      if sechzig.scene.sceneIsActive(scene)
-        scene.sceneIsActive = true
+      if sechzig.scene.status(scene)
+        sechzig.scene.setActive(scene)
         sechzig.scene.directActiveScenes(scene)
       else
-        scene.sceneIsActive = false
+        sechzig.scene.setInactive(scene)
 
-  sceneIsActive: (scene) ->
+  status: (scene) ->
     (sechzig.scroll.scrollTop >= scene.top and sechzig.scroll.scrollTop <= scene.bottom) or
     (sechzig.scroll.scrollBottom >= scene.top and sechzig.scroll.scrollBottom <= scene.bottom)
 
@@ -21,6 +21,14 @@ sechzig.scene =
 
   getSceneProgress: (scene) ->
     scene.progress = (sechzig.scroll.scrollBottom - scene.top)/scene.duration
+
+  setActive: (scene) ->
+    scene.object.trigger('active') unless scene.sceneIsActive
+    scene.sceneIsActive = true
+
+  setInactive: (scene) ->
+    scene.object.trigger('inactive') if scene.sceneIsActive
+    scene.sceneIsActive = false
 
 $ ->
   sechzig.scene.initialize()

@@ -69,6 +69,7 @@
         movement = ref[i];
         if (movement.section === section) {
           sechzig.movement.setDefaultMovements(movement);
+          sechzig.blocking.setCharacterObject(movement);
           sectionMovements.push(movement);
         }
       }
@@ -84,13 +85,32 @@
         movement.finishPixel = (movement.finishTime * scene.duration) + scene.top;
         movement.pixelDistance = movement.finishPixel - movement.startPixel;
         movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel;
-        if ((sechzig.scroll.scrollBottom >= movement.startPixel) && (sechzig.scroll.scrollBottom <= movement.finishPixel)) {
-          results.push(sechzig.movement.animateMovement(scene, movement));
+        if (sechzig.blocking.status(movement)) {
+          sechzig.movement.animateMovement(scene, movement);
+          results.push(sechzig.blocking.setActive(movement));
         } else {
-          results.push(void 0);
+          results.push(sechzig.blocking.setInactive(movement));
         }
       }
       return results;
+    },
+    setCharacterObject: function(movement) {
+      return movement.object = $("#" + (movement.section + " " + movement.character));
+    },
+    status: function(movement) {
+      return (sechzig.scroll.scrollBottom >= movement.startPixel) && (sechzig.scroll.scrollBottom <= movement.finishPixel);
+    },
+    setActive: function(movement) {
+      if (!movement.movementIsActive) {
+        movement.object.trigger('active');
+      }
+      return movement.movementIsActive = true;
+    },
+    setInactive: function(movement) {
+      if (movement.movementIsActive) {
+        movement.object.trigger('inactive');
+      }
+      return movement.movementIsActive = false;
     }
   };
 
@@ -213,16 +233,16 @@
         if (scene.sticky !== false) {
           sechzig.backing.setStickyScene(scene);
         }
-        if (sechzig.scene.sceneIsActive(scene)) {
-          scene.sceneIsActive = true;
+        if (sechzig.scene.status(scene)) {
+          sechzig.scene.setActive(scene);
           results.push(sechzig.scene.directActiveScenes(scene));
         } else {
-          results.push(scene.sceneIsActive = false);
+          results.push(sechzig.scene.setInactive(scene));
         }
       }
       return results;
     },
-    sceneIsActive: function(scene) {
+    status: function(scene) {
       return (sechzig.scroll.scrollTop >= scene.top && sechzig.scroll.scrollTop <= scene.bottom) || (sechzig.scroll.scrollBottom >= scene.top && sechzig.scroll.scrollBottom <= scene.bottom);
     },
     directActiveScenes: function(scene) {
@@ -231,6 +251,18 @@
     },
     getSceneProgress: function(scene) {
       return scene.progress = (sechzig.scroll.scrollBottom - scene.top) / scene.duration;
+    },
+    setActive: function(scene) {
+      if (!scene.sceneIsActive) {
+        scene.object.trigger('active');
+      }
+      return scene.sceneIsActive = true;
+    },
+    setInactive: function(scene) {
+      if (scene.sceneIsActive) {
+        scene.object.trigger('inactive');
+      }
+      return scene.sceneIsActive = false;
     }
   };
 
@@ -333,7 +365,7 @@
       }
     }, movement = {
       'section': 'scene-four',
-      'character': ".thing",
+      'character': ".theng",
       'startTime': 0.25,
       'finishTime': 0.5,
       'startValues': {
@@ -344,7 +376,7 @@
       }
     }, movement = {
       'section': 'scene-four',
-      'character': ".thing",
+      'character': ".theng",
       'startTime': 0.5,
       'finishTime': 0.75,
       'startValues': {
