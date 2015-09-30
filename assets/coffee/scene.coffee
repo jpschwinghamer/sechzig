@@ -20,7 +20,7 @@ sechzig.scene =
     sechzig.blocking.getBlockingProgress(scene)
 
   getSceneProgress: (scene) ->
-    scene.progress = Math.max(Math.min((sechzig.scroll.scrollBottom - scene.top)/scene.duration, 1), 0)
+    scene.progress = (sechzig.scroll.scrollBottom - scene.top)/scene.duration
 
 $ ->
   sechzig.scene.initialize()

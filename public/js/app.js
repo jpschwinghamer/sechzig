@@ -5,7 +5,6 @@
   window.sechzig || (window.sechzig = {});
 
   sechzig.backing = {
-    initialize: function() {},
     setStickyScene: function(scene) {
       this.backing = scene.object.find('.backing');
       switch (scene.sticky) {
@@ -57,10 +56,6 @@
       }
     }
   };
-
-  $(function() {
-    return sechzig.backing.initialize();
-  });
 
   sechzig.blocking = {
     initialize: function() {
@@ -235,7 +230,7 @@
       return sechzig.blocking.getBlockingProgress(scene);
     },
     getSceneProgress: function(scene) {
-      return scene.progress = Math.max(Math.min((sechzig.scroll.scrollBottom - scene.top) / scene.duration, 1), 0);
+      return scene.progress = (sechzig.scroll.scrollBottom - scene.top) / scene.duration;
     }
   };
 
@@ -338,7 +333,7 @@
       }
     }, movement = {
       'section': 'scene-four',
-      'character': ".character",
+      'character': ".thing",
       'startTime': 0.25,
       'finishTime': 0.5,
       'startValues': {
@@ -349,7 +344,7 @@
       }
     }, movement = {
       'section': 'scene-four',
-      'character': ".character",
+      'character': ".thing",
       'startTime': 0.5,
       'finishTime': 0.75,
       'startValues': {
@@ -359,6 +354,31 @@
       'finishValues': {
         'translateX': -25,
         'translateY': -25,
+        'opacity': 0
+      }
+    }, movement = {
+      'section': 'scene-four',
+      'character': ".thang",
+      'startTime': 0.25,
+      'finishTime': 0.5,
+      'startValues': {
+        'translateX': 0
+      },
+      'finishValues': {
+        'translateX': 25
+      }
+    }, movement = {
+      'section': 'scene-four',
+      'character': ".thang",
+      'startTime': 0.5,
+      'finishTime': 0.75,
+      'startValues': {
+        'translateX': 25,
+        'translateY': 0
+      },
+      'finishValues': {
+        'translateX': 25,
+        'translateY': 25,
         'opacity': 0
       }
     }

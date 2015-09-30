@@ -36,7 +36,7 @@ sechzig.keyframes = [
     }
   movement =
     'section' : 'scene-four',
-    'character' : ".character",
+    'character' : ".thing",
     'startTime' : 0.25,
     'finishTime' : 0.5,
     'startValues' : {
@@ -47,7 +47,7 @@ sechzig.keyframes = [
     }
   movement =
     'section' : 'scene-four',
-    'character' : ".character",
+    'character' : ".thing",
     'startTime' : 0.5,
     'finishTime' : 0.75,
     'startValues' : {
@@ -57,6 +57,31 @@ sechzig.keyframes = [
     'finishValues' : {
       'translateX' : -25,
       'translateY' : -25,
+      'opacity' : 0
+    }
+  movement =
+    'section' : 'scene-four',
+    'character' : ".thang",
+    'startTime' : 0.25,
+    'finishTime' : 0.5,
+    'startValues' : {
+      'translateX' : 0
+    }
+    'finishValues' : {
+      'translateX': 25
+    }
+  movement =
+    'section' : 'scene-four',
+    'character' : ".thang",
+    'startTime' : 0.5,
+    'finishTime' : 0.75,
+    'startValues' : {
+      'translateX' : 25,
+      'translateY' : 0
+    }
+    'finishValues' : {
+      'translateX' : 25,
+      'translateY' : 25,
       'opacity' : 0
     }
 ]

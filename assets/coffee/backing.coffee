@@ -1,5 +1,4 @@
 sechzig.backing =
-  initialize: ->
 
   setStickyScene: (scene) ->
       @backing = scene.object.find('.backing')
@@ -45,6 +44,3 @@ sechzig.backing =
                 'bottom' : '0',
                 'top' : 'auto'
                 })
-
-$ ->
-  sechzig.backing.initialize()
