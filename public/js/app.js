@@ -65,15 +65,39 @@
       var movement;
       return this.movements = [
         movement = {
-          'section': 'scene-three',
+          'section': 'scene-one',
+          'character': ".character",
+          'startTime': 0.5,
+          'finishTime': 1,
+          'startValues': {
+            'translateY': 0,
+            'opacity': 1
+          },
+          'finishValues': {
+            'translateY': -100,
+            'opacity': -1
+          }
+        }, movement = {
+          'section': 'scene-two',
+          'character': ".character",
+          'startTime': 0,
+          'finishTime': 1,
+          'startValues': {
+            'rotate': 0
+          },
+          'finishValues': {
+            'rotate': 360
+          }
+        }, movement = {
+          'section': 'scene-four',
           'character': ".character",
           'startTime': 0,
           'finishTime': 0.5,
           'startValues': {
-            'scale': 3
+            'scale': 4
           },
           'finishValues': {
-            'scale': -2
+            'scale': 1
           }
         }
       ];
@@ -99,9 +123,9 @@
         movement = ref[i];
         movement.startPixel = (movement.startTime * scene.duration) + scene.top;
         movement.finishPixel = (movement.finishTime * scene.duration) + scene.top;
+        movement.pixelDistance = movement.finishPixel - movement.startPixel;
+        movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel;
         if ((sechzig.scroll.scrollBottom >= movement.startPixel) && (sechzig.scroll.scrollBottom <= movement.finishPixel)) {
-          movement.totalPixels = movement.finishPixel - movement.startPixel;
-          movement.progress = (sechzig.scroll.scrollBottom - movement.startPixel) / movement.totalPixels;
           results.push(sechzig.movement.animateMovement(scene, movement));
         } else {
           results.push(void 0);
@@ -151,8 +175,8 @@
     },
     animateMovement: function(scene, movement) {
       return $("#" + scene.id + " " + movement.character).css({
-        'opacity': movement.finishValues.opacity * movement.progress + movement.startValues.opacity,
-        'transform': "translate3d( " + (movement.finishValues.translateX * movement.progress + movement.startValues.translateX) + "vw, " + (movement.finishValues.translateY * movement.progress + movement.startValues.translateY) + "vh, 0) rotate( " + (movement.finishValues.rotate * movement.progress + movement.startValues.rotate) + "deg) scale( " + (movement.finishValues.scale * movement.progress + movement.startValues.scale) + ")"
+        'opacity': sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
+        'transform': "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
       });
     }
   };
@@ -304,6 +328,21 @@
 
   $(function() {
     return sechzig.stage.initialize();
+  });
+
+  sechzig.easing = {
+    initialize: function() {},
+    quadInOut: function(progress, startValue, valueChange, duration) {
+      if ((progress = progress / (duration / 2)) < 1) {
+        return valueChange / 2 * progress * progress + startValue;
+      } else {
+        return -valueChange / 2 * ((progress -= 1) * (progress - 2) - 1) + startValue;
+      }
+    }
+  };
+
+  $(function() {
+    return sechzig.easing.initialize();
   });
 
 }).call(this);

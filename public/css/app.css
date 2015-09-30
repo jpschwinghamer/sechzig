@@ -38,11 +38,7 @@
 /* line 24, ../../assets/sass/app.sass */
 .scene .character {
   will-change: opacity, transform;
+  background-color: #aaa;
   width: 25vh;
   height: 25vh;
-  background-color: #aaa;
-}
-/* line 29, ../../assets/sass/app.sass */
-.scene.scene-three, .scene.scene-four {
-  height: 300vh;
 }

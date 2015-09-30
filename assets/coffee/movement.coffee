@@ -23,20 +23,18 @@ sechzig.movement =
     unless movement.finishValues.scale?
       movement.finishValues.scale = movement.startValues.scale
 
-
   animateMovement: (scene, movement) ->
     $("##{scene.id} #{movement.character}").css({
-      'opacity':      movement.finishValues.opacity * movement.progress + movement.startValues.opacity,
+      'opacity' : sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
       'transform' :   "translate3d(
-                        #{movement.finishValues.translateX * movement.progress + movement.startValues.translateX}vw,
-                        #{movement.finishValues.translateY * movement.progress + movement.startValues.translateY}vh,
-                        0)
+                      #{sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)}vw,
+                      #{sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)}vh,
+                      0)
                       rotate(
-                        #{movement.finishValues.rotate * movement.progress + movement.startValues.rotate}deg)
+                      #{sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)}deg)
                       scale(
-                        #{movement.finishValues.scale * movement.progress + movement.startValues.scale})"
+                      #{sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)})"
     })
-
 
 $ ->
  sechzig.movement.initialize()
