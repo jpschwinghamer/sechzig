@@ -2,14 +2,14 @@ sechzig.blocking =
   initialize: ->
     @movements = sechzig.keyframes
 
-  assignMovements: (section) ->
-    sectionMovements = []
+  assignMovements: (scene) ->
+    sceneMovements = []
     for movement in sechzig.blocking.movements
-      if movement.section == section
+      if movement.scene == scene
         sechzig.movement.setDefaultMovements(movement)
-        sechzig.blocking.setCharacterObject(movement)
-        sectionMovements.push(movement)
-    sectionMovements
+        sechzig.blocking.setMovementObject(movement)
+        sceneMovements.push(movement)
+    sceneMovements
 
   getBlockingProgress: (scene) ->
     for movement in scene.blocking
@@ -23,8 +23,8 @@ sechzig.blocking =
       else
         sechzig.blocking.setInactive(movement)
 
-  setCharacterObject: (movement) ->
-    movement.object = $("##{movement.section + " " + movement.character}")
+  setMovementObject: (movement) ->
+    movement.object = $("##{movement.scene + " " + movement.character}")
 
   status: (movement) ->
     (sechzig.scroll.scrollBottom >= movement.startPixel) and (sechzig.scroll.scrollBottom <= movement.finishPixel)

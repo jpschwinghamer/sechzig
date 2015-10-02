@@ -1,6 +1,6 @@
 sechzig.keyframes = [
   # movement =
-  #   'section' : 'scene-three',
+  #   'scene' : 'scene-three',
   #   'character' : ".character",
   #   'startTime' : 0,
   #   'finishTime' : 0.5,
@@ -11,7 +11,7 @@ sechzig.keyframes = [
   #     'rotate' : 180
   #   }
   movement =
-    'section' : 'scene-three',
+    'scene' : 'scene-three',
     'character' : ".character",
     'startTime' : 0,
     'finishTime' : 0.5,
@@ -22,7 +22,7 @@ sechzig.keyframes = [
       'rotate' : 180
     }
   movement =
-    'section' : 'scene-two',
+    'scene' : 'scene-two',
     'character' : ".theng",
     'startTime' : 0,
     'finishTime' : 0.5,
@@ -33,7 +33,7 @@ sechzig.keyframes = [
       'scale': 1
     }
   movement =
-    'section' : 'scene-two',
+    'scene' : 'scene-two',
     'character' : ".thing",
     'startTime' : 0.25,
     'finishTime' : 0.5,
@@ -46,7 +46,7 @@ sechzig.keyframes = [
       'scale' : 1
     }
   movement =
-    'section' : 'scene-four',
+    'scene' : 'scene-four',
     'character' : ".theng",
     'startTime' : 0.25,
     'finishTime' : 0.5,
@@ -57,7 +57,7 @@ sechzig.keyframes = [
       'translateX': -25
     }
   movement =
-    'section' : 'scene-four',
+    'scene' : 'scene-four',
     'character' : ".theng",
     'startTime' : 0.5,
     'finishTime' : 0.75,
@@ -71,7 +71,7 @@ sechzig.keyframes = [
       'opacity' : 0
     }
   movement =
-    'section' : 'scene-four',
+    'scene' : 'scene-four',
     'character' : ".thang",
     'startTime' : 0.25,
     'finishTime' : 0.5,
@@ -82,7 +82,7 @@ sechzig.keyframes = [
       'translateX': 25
     }
   movement =
-    'section' : 'scene-four',
+    'scene' : 'scene-four',
     'character' : ".thang",
     'startTime' : 0.5,
     'finishTime' : 0.75,

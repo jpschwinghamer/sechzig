@@ -61,19 +61,19 @@
     initialize: function() {
       return this.movements = sechzig.keyframes;
     },
-    assignMovements: function(section) {
-      var i, len, movement, ref, sectionMovements;
-      sectionMovements = [];
+    assignMovements: function(scene) {
+      var i, len, movement, ref, sceneMovements;
+      sceneMovements = [];
       ref = sechzig.blocking.movements;
       for (i = 0, len = ref.length; i < len; i++) {
         movement = ref[i];
-        if (movement.section === section) {
+        if (movement.scene === scene) {
           sechzig.movement.setDefaultMovements(movement);
-          sechzig.blocking.setCharacterObject(movement);
-          sectionMovements.push(movement);
+          sechzig.blocking.setMovementObject(movement);
+          sceneMovements.push(movement);
         }
       }
-      return sectionMovements;
+      return sceneMovements;
     },
     getBlockingProgress: function(scene) {
       var i, len, movement, ref, results;
@@ -94,8 +94,8 @@
       }
       return results;
     },
-    setCharacterObject: function(movement) {
-      return movement.object = $("#" + (movement.section + " " + movement.character));
+    setMovementObject: function(movement) {
+      return movement.object = $("#" + (movement.scene + " " + movement.character));
     },
     status: function(movement) {
       return (sechzig.scroll.scrollBottom >= movement.startPixel) && (sechzig.scroll.scrollBottom <= movement.finishPixel);
@@ -127,6 +127,95 @@
       }
     }
   };
+
+  sechzig.keyframes = [
+    movement = {
+      'scene': 'scene-three',
+      'character': ".character",
+      'startTime': 0,
+      'finishTime': 0.5,
+      'startValues': {
+        'rotate': 0
+      },
+      'finishValues': {
+        'rotate': 180
+      }
+    }, movement = {
+      'scene': 'scene-two',
+      'character': ".theng",
+      'startTime': 0,
+      'finishTime': 0.5,
+      'startValues': {
+        'scale': 4
+      },
+      'finishValues': {
+        'scale': 1
+      }
+    }, movement = {
+      'scene': 'scene-two',
+      'character': ".thing",
+      'startTime': 0.25,
+      'finishTime': 0.5,
+      'startValues': {
+        'opacity': 0,
+        'scale': 0.8
+      },
+      'finishValues': {
+        'opacity': 1,
+        'scale': 1
+      }
+    }, movement = {
+      'scene': 'scene-four',
+      'character': ".theng",
+      'startTime': 0.25,
+      'finishTime': 0.5,
+      'startValues': {
+        'translateX': 0
+      },
+      'finishValues': {
+        'translateX': -25
+      }
+    }, movement = {
+      'scene': 'scene-four',
+      'character': ".theng",
+      'startTime': 0.5,
+      'finishTime': 0.75,
+      'startValues': {
+        'translateX': -25,
+        'translateY': 0
+      },
+      'finishValues': {
+        'translateX': -25,
+        'translateY': -25,
+        'opacity': 0
+      }
+    }, movement = {
+      'scene': 'scene-four',
+      'character': ".thang",
+      'startTime': 0.25,
+      'finishTime': 0.5,
+      'startValues': {
+        'translateX': 0
+      },
+      'finishValues': {
+        'translateX': 25
+      }
+    }, movement = {
+      'scene': 'scene-four',
+      'character': ".thang",
+      'startTime': 0.5,
+      'finishTime': 0.75,
+      'startValues': {
+        'translateX': 25,
+        'translateY': 0
+      },
+      'finishValues': {
+        'translateX': 25,
+        'translateY': 25,
+        'opacity': 0
+      }
+    }
+  ];
 
   sechzig.movement = {
     initialize: function() {},
@@ -326,94 +415,5 @@
   $(function() {
     return sechzig.stage.initialize();
   });
-
-  sechzig.keyframes = [
-    movement = {
-      'section': 'scene-three',
-      'character': ".character",
-      'startTime': 0,
-      'finishTime': 0.5,
-      'startValues': {
-        'rotate': 0
-      },
-      'finishValues': {
-        'rotate': 180
-      }
-    }, movement = {
-      'section': 'scene-two',
-      'character': ".theng",
-      'startTime': 0,
-      'finishTime': 0.5,
-      'startValues': {
-        'scale': 4
-      },
-      'finishValues': {
-        'scale': 1
-      }
-    }, movement = {
-      'section': 'scene-two',
-      'character': ".thing",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'opacity': 0,
-        'scale': 0.8
-      },
-      'finishValues': {
-        'opacity': 1,
-        'scale': 1
-      }
-    }, movement = {
-      'section': 'scene-four',
-      'character': ".theng",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'translateX': 0
-      },
-      'finishValues': {
-        'translateX': -25
-      }
-    }, movement = {
-      'section': 'scene-four',
-      'character': ".theng",
-      'startTime': 0.5,
-      'finishTime': 0.75,
-      'startValues': {
-        'translateX': -25,
-        'translateY': 0
-      },
-      'finishValues': {
-        'translateX': -25,
-        'translateY': -25,
-        'opacity': 0
-      }
-    }, movement = {
-      'section': 'scene-four',
-      'character': ".thang",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'translateX': 0
-      },
-      'finishValues': {
-        'translateX': 25
-      }
-    }, movement = {
-      'section': 'scene-four',
-      'character': ".thang",
-      'startTime': 0.5,
-      'finishTime': 0.75,
-      'startValues': {
-        'translateX': 25,
-        'translateY': 0
-      },
-      'finishValues': {
-        'translateX': 25,
-        'translateY': 25,
-        'opacity': 0
-      }
-    }
-  ];
 
 }).call(this);
