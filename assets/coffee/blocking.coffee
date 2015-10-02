@@ -1,10 +1,10 @@
 sechzig.blocking =
   initialize: ->
-    @movements = sechzig.keyframes
+    @keyframes = sechzig.keyframes
 
   assignMovements: (scene) ->
     sceneMovements = []
-    for movement in sechzig.blocking.movements
+    for movement in sechzig.blocking.keyframes
       if movement.scene == scene
         sechzig.movement.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)

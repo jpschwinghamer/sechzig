@@ -59,12 +59,12 @@
 
   sechzig.blocking = {
     initialize: function() {
-      return this.movements = sechzig.keyframes;
+      return this.keyframes = sechzig.keyframes;
     },
     assignMovements: function(scene) {
       var i, len, movement, ref, sceneMovements;
       sceneMovements = [];
-      ref = sechzig.blocking.movements;
+      ref = sechzig.blocking.keyframes;
       for (i = 0, len = ref.length; i < len; i++) {
         movement = ref[i];
         if (movement.scene === scene) {
