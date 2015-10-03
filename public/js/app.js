@@ -68,12 +68,49 @@
       for (i = 0, len = ref.length; i < len; i++) {
         movement = ref[i];
         if (movement.scene === scene) {
-          sechzig.movement.setDefaultMovements(movement);
+          sechzig.blocking.setDefaultMovements(movement);
           sechzig.blocking.setMovementObject(movement);
           sceneMovements.push(movement);
         }
       }
       return sceneMovements;
+    },
+    setDefaultMovements: function(movement) {
+      if (movement.type == null) {
+        movement.type = "animation";
+      }
+      if (movement.type === "animation") {
+        if (movement.startValues.opacity == null) {
+          movement.startValues.opacity = 1;
+        }
+        if (movement.startValues.translateX == null) {
+          movement.startValues.translateX = 0;
+        }
+        if (movement.startValues.translateY == null) {
+          movement.startValues.translateY = 0;
+        }
+        if (movement.startValues.rotate == null) {
+          movement.startValues.rotate = 0;
+        }
+        if (movement.startValues.scale == null) {
+          movement.startValues.scale = 1;
+        }
+        if (movement.finishValues.opacity == null) {
+          movement.finishValues.opacity = movement.startValues.opacity;
+        }
+        if (movement.finishValues.translateX == null) {
+          movement.finishValues.translateX = movement.startValues.translateX;
+        }
+        if (movement.finishValues.translateY == null) {
+          movement.finishValues.translateY = movement.startValues.translateY;
+        }
+        if (movement.finishValues.rotate == null) {
+          movement.finishValues.rotate = movement.startValues.rotate;
+        }
+        if (movement.finishValues.scale == null) {
+          return movement.finishValues.scale = movement.startValues.scale;
+        }
+      }
     },
     getBlockingProgress: function(scene) {
       var i, len, movement, ref, results;
@@ -86,7 +123,7 @@
         movement.pixelDistance = movement.finishPixel - movement.startPixel;
         movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel;
         if (sechzig.blocking.status(movement)) {
-          sechzig.movement.animateMovement(scene, movement);
+          sechzig.movement.directMovement(movement);
           results.push(sechzig.blocking.setActive(movement));
         } else {
           results.push(sechzig.blocking.setInactive(movement));
@@ -119,6 +156,9 @@
   });
 
   sechzig.easing = {
+    linear: function(progress, startValue, valueChange, duration) {
+      return valueChange * progress / duration + startValue;
+    },
     quadInOut: function(progress, startValue, valueChange, duration) {
       if ((progress = progress / (duration / 2)) < 1) {
         return valueChange / 2 * progress * progress + startValue;
@@ -130,6 +170,12 @@
 
   sechzig.keyframes = [
     movement = {
+      'type': 'video',
+      'scene': 'scene-five',
+      'character': "video",
+      'startTime': 0.25,
+      'finishTime': 0.75
+    }, movement = {
       'scene': 'scene-three',
       'character': ".character",
       'startTime': 0,
@@ -219,43 +265,25 @@
 
   sechzig.movement = {
     initialize: function() {},
-    setDefaultMovements: function(movement) {
-      if (movement.startValues.opacity == null) {
-        movement.startValues.opacity = 1;
-      }
-      if (movement.startValues.translateX == null) {
-        movement.startValues.translateX = 0;
-      }
-      if (movement.startValues.translateY == null) {
-        movement.startValues.translateY = 0;
-      }
-      if (movement.startValues.rotate == null) {
-        movement.startValues.rotate = 0;
-      }
-      if (movement.startValues.scale == null) {
-        movement.startValues.scale = 1;
-      }
-      if (movement.finishValues.opacity == null) {
-        movement.finishValues.opacity = movement.startValues.opacity;
-      }
-      if (movement.finishValues.translateX == null) {
-        movement.finishValues.translateX = movement.startValues.translateX;
-      }
-      if (movement.finishValues.translateY == null) {
-        movement.finishValues.translateY = movement.startValues.translateY;
-      }
-      if (movement.finishValues.rotate == null) {
-        movement.finishValues.rotate = movement.startValues.rotate;
-      }
-      if (movement.finishValues.scale == null) {
-        return movement.finishValues.scale = movement.startValues.scale;
+    directMovement: function(movement) {
+      switch (movement.type) {
+        case "animation":
+          return sechzig.movement.animateMovement(movement);
+        case "video":
+          movement.video = movement.object[0];
+          return sechzig.movement.playMovement(movement);
       }
     },
-    animateMovement: function(scene, movement) {
-      return $("#" + scene.id + " " + movement.character).css({
+    animateMovement: function(movement) {
+      return $("#" + movement.scene + " " + movement.character).css({
         'opacity': sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
         'transform': "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
       });
+    },
+    playMovement: function(movement) {
+      if (movement.video.networkState === 1) {
+        return movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance);
+      }
     }
   };
 

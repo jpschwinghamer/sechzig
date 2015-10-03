@@ -1,15 +1,10 @@
 sechzig.keyframes = [
-  # movement =
-  #   'scene' : 'scene-three',
-  #   'character' : ".character",
-  #   'startTime' : 0,
-  #   'finishTime' : 0.5,
-  #   'startValues' : {
-  #     'rotate' : 0
-  #   }
-  #   'finishValues' : {
-  #     'rotate' : 180
-  #   }
+  movement =
+    'type' : 'video'
+    'scene' : 'scene-five',
+    'character' : "video",
+    'startTime' : 0.25,
+    'finishTime' : 0.75
   movement =
     'scene' : 'scene-three',
     'character' : ".character",

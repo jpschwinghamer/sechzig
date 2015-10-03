@@ -6,10 +6,38 @@ sechzig.blocking =
     sceneMovements = []
     for movement in sechzig.blocking.keyframes
       if movement.scene == scene
-        sechzig.movement.setDefaultMovements(movement)
+        sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
         sceneMovements.push(movement)
     sceneMovements
+
+  setDefaultMovements: (movement) ->
+    # Types
+    unless movement.type?
+      movement.type = "animation"
+
+    # Animation defaults
+    if movement.type == "animation"
+      unless movement.startValues.opacity?
+        movement.startValues.opacity = 1
+      unless movement.startValues.translateX?
+        movement.startValues.translateX = 0
+      unless movement.startValues.translateY?
+        movement.startValues.translateY = 0
+      unless movement.startValues.rotate?
+        movement.startValues.rotate = 0
+      unless movement.startValues.scale?
+        movement.startValues.scale = 1
+      unless movement.finishValues.opacity?
+        movement.finishValues.opacity = movement.startValues.opacity
+      unless movement.finishValues.translateX?
+        movement.finishValues.translateX = movement.startValues.translateX
+      unless movement.finishValues.translateY?
+        movement.finishValues.translateY = movement.startValues.translateY
+      unless movement.finishValues.rotate?
+        movement.finishValues.rotate = movement.startValues.rotate
+      unless movement.finishValues.scale?
+        movement.finishValues.scale = movement.startValues.scale
 
   getBlockingProgress: (scene) ->
     for movement in scene.blocking
@@ -18,7 +46,7 @@ sechzig.blocking =
       movement.pixelDistance = movement.finishPixel - movement.startPixel
       movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel
       if sechzig.blocking.status(movement)
-        sechzig.movement.animateMovement(scene, movement)
+        sechzig.movement.directMovement(movement)
         sechzig.blocking.setActive(movement)
       else
         sechzig.blocking.setInactive(movement)

@@ -47,17 +47,26 @@
   height: 400vh;
 }
 /* line 31, ../../assets/sass/app.sass */
+.scene.scene-five {
+  height: 300vh;
+}
+/* line 33, ../../assets/sass/app.sass */
 .scene .row {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
-/* line 33, ../../assets/sass/app.sass */
+/* line 35, ../../assets/sass/app.sass */
 .scene .row > * {
   margin: 2vh;
 }
-/* line 35, ../../assets/sass/app.sass */
+/* line 37, ../../assets/sass/app.sass */
 .scene .thing {
   opacity: 0;
+}
+/* line 39, ../../assets/sass/app.sass */
+.scene video {
+  min-width: 100%;
+  min-height: 100%;
 }
