@@ -1,9 +1,9 @@
 sechzig.keyframes = [
   movement =
-    'type' : 'video'
+    'type' : 'play-video'
     'scene' : 'scene-five',
     'character' : "video",
-    'startTime' : 0.25,
+    'startTime' : 0,
     'finishTime' : 0.75
   movement =
     'scene' : 'scene-three',

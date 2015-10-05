@@ -77,9 +77,9 @@
     },
     setDefaultMovements: function(movement) {
       if (movement.type == null) {
-        movement.type = "animation";
+        movement.type = "css-animation";
       }
-      if (movement.type === "animation") {
+      if (movement.type === "css-animation") {
         if (movement.startValues.opacity == null) {
           movement.startValues.opacity = 1;
         }
@@ -170,10 +170,10 @@
 
   sechzig.keyframes = [
     movement = {
-      'type': 'video',
+      'type': 'play-video',
       'scene': 'scene-five',
       'character': "video",
-      'startTime': 0.25,
+      'startTime': 0,
       'finishTime': 0.75
     }, movement = {
       'scene': 'scene-three',
@@ -267,23 +267,36 @@
     initialize: function() {},
     directMovement: function(movement) {
       switch (movement.type) {
-        case "animation":
-          return sechzig.movement.animateMovement(movement);
-        case "video":
+        case "css-animation":
+          return sechzig.movement.animateCSS(movement);
+        case "scrub-video":
           movement.video = movement.object[0];
-          return sechzig.movement.playMovement(movement);
+          return sechzig.movement.scrubVideo(movement);
+        case "play-video":
+          movement.video = movement.object[0];
+          if (!movement.movementIsActive) {
+            return sechzig.movement.playVideo(movement);
+          }
       }
     },
-    animateMovement: function(movement) {
+    animateCSS: function(movement) {
       return $("#" + movement.scene + " " + movement.character).css({
         'opacity': sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
         'transform': "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
       });
     },
-    playMovement: function(movement) {
+    scrubVideo: function(movement) {
       if (movement.video.networkState === 1) {
         return movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance);
       }
+    },
+    playVideo: function(movement) {
+      if (movement.video.networkState === 1) {
+        movement.video.play();
+      }
+      return movement.object.on('inactive', function() {
+        return movement.video.pause();
+      });
     }
   };
 

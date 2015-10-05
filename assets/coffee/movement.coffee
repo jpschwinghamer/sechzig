@@ -3,13 +3,17 @@ sechzig.movement =
 
   directMovement: (movement) ->
     switch movement.type
-      when "animation"
-        sechzig.movement.animateMovement(movement)
-      when "video"
+      when "css-animation"
+        sechzig.movement.animateCSS(movement)
+      when "scrub-video"
         movement.video = movement.object[0]
-        sechzig.movement.playMovement(movement)
+        sechzig.movement.scrubVideo(movement)
+      when "play-video"
+        movement.video = movement.object[0]
+        sechzig.movement.playVideo(movement) unless movement.movementIsActive
 
-  animateMovement: (movement) ->
+
+  animateCSS: (movement) ->
     $("##{movement.scene} #{movement.character}").css({
         'opacity' : sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
         'transform' :   "translate3d(
@@ -22,9 +26,15 @@ sechzig.movement =
                         #{sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)})"
       })
 
-  playMovement: (movement) ->
+  scrubVideo: (movement) ->
     if movement.video.networkState == 1
       movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance)
+
+  playVideo: (movement) ->
+    if movement.video.networkState == 1
+      movement.video.play()
+    movement.object.on 'inactive', ->
+      movement.video.pause()
 
 $ ->
  sechzig.movement.initialize()

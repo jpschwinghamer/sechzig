@@ -14,10 +14,10 @@ sechzig.blocking =
   setDefaultMovements: (movement) ->
     # Types
     unless movement.type?
-      movement.type = "animation"
+      movement.type = "css-animation"
 
     # Animation defaults
-    if movement.type == "animation"
+    if movement.type == "css-animation"
       unless movement.startValues.opacity?
         movement.startValues.opacity = 1
       unless movement.startValues.translateX?
