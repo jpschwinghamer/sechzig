@@ -48,7 +48,7 @@
 }
 /* line 31, ../../assets/sass/app.sass */
 .scene.scene-six {
-  height: 300vh;
+  height: 200vh;
 }
 /* line 33, ../../assets/sass/app.sass */
 .scene .row {
@@ -69,4 +69,9 @@
 .scene video {
   min-width: 100%;
   min-height: 100%;
+}
+/* line 42, ../../assets/sass/app.sass */
+.scene canvas {
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
 }

@@ -1,3 +1,5 @@
+window.sechzig ||= {}
+
 sechzig.animation =
   animateCSS: (movement) ->
     $("##{movement.scene} #{movement.character}").css

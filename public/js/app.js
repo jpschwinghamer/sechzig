@@ -4,6 +4,17 @@
 
   window.sechzig || (window.sechzig = {});
 
+  sechzig.animation = {
+    animateCSS: function(movement) {
+      return $("#" + movement.scene + " " + movement.character).css({
+        opacity: sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
+        transform: "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
+      });
+    }
+  };
+
+  window.sechzig || (window.sechzig = {});
+
   sechzig.backing = {
     setStickyScene: function(scene) {
       this.backing = scene.object.find('.backing');
@@ -73,7 +84,7 @@
           if (movement.type === "play-video" || movement.type === "scrub-video") {
             sechzig.video.initialize(movement);
           }
-          if (movement.type === "scrub-canvas" || movement.type === "play-canvas") {
+          if (movement.type === "scrub-canvas" || movement.type === "draw-canvas") {
             sechzig.canvas.initialize(movement);
           }
           sceneMovements.push(movement);
@@ -161,6 +172,62 @@
     return sechzig.blocking.initialize();
   });
 
+  sechzig.canvas = {
+    initialize: function(movement) {
+      movement.canvas = movement.object[0];
+      movement.context = movement.canvas.getContext('2d');
+      movement.images = [];
+      movement.playCount = 0;
+      this.buildImages(movement);
+      return this.getImageSizes(movement);
+    },
+    buildImages: function(movement) {
+      var i, img, j, ref;
+      for (i = j = 1, ref = movement.imageCount; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+        img = new Image;
+        img.src = (movement.imagePath + i) + "." + movement.imageType;
+        movement.images.push(img);
+      }
+      return movement.images;
+    },
+    getImageSizes: function(movement) {
+      var img;
+      img = new Image;
+      $(img).on('load', function() {
+        movement.imageWidth = this.width;
+        movement.imageHeight = this.height;
+        return sechzig.canvas.setCanvasSize(movement);
+      });
+      return img.src = (movement.imagePath + 1) + "." + movement.imageType;
+    },
+    setCanvasSize: function(movement) {
+      movement.object.attr({
+        width: movement.imageWidth,
+        height: movement.imageHeight
+      });
+      movement.object.css({
+        width: movement.imageWidth / 2,
+        height: movement.imageHeight / 2
+      });
+      return sechzig.canvas.setInitialFrame(movement);
+    },
+    setInitialFrame: function(movement) {
+      return movement.context.drawImage(movement.images[0], 0, 0);
+    },
+    scrubCanvas: function(movement) {
+      var frame;
+      frame = Math.max(Math.min(Math.floor(sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)), movement.imageCount), 0);
+      return movement.context.drawImage(movement.images[frame], 0, 0, movement.imageWidth, movement.imageHeight);
+    },
+    drawCanvas: function(movement) {
+      if (movement.playCount < movement.imageCount) {
+        return movement.context.drawImage(movement.images[movement.playCount++], 0, 0, movement.imageWidth, movement.imageHeight);
+      } else {
+        return movement.playCount = 1;
+      }
+    }
+  };
+
   sechzig.easing = {
     linear: function(progress, startValue, valueChange, duration) {
       return valueChange * progress / duration + startValue;
@@ -176,20 +243,14 @@
 
   sechzig.keyframes = [
     movement = {
-      type: "play-video",
-      scene: "scene-five",
-      character: "video",
-      startTime: 0,
-      finishTime: 0.75
-    }, movement = {
       scene: "scene-six",
       character: "canvas",
-      type: "scrub-canvas",
-      imagePath: "/images/canvas/wireless",
+      type: "draw-canvas",
+      imagePath: "/images/test/frame",
       imageType: "jpg",
-      imageCount: 26,
-      startTime: 0.10,
-      finishTime: 0.50
+      imageCount: 60,
+      startTime: 0,
+      finishTime: 1
     }, movement = {
       scene: "scene-three",
       character: ".character",
@@ -242,6 +303,8 @@
           break;
         case "scrub-canvas":
           return sechzig.canvas.scrubCanvas(movement);
+        case "draw-canvas":
+          return sechzig.canvas.drawCanvas(movement);
       }
     }
   };
@@ -399,15 +462,6 @@
     return sechzig.stage.initialize();
   });
 
-  sechzig.animation = {
-    animateCSS: function(movement) {
-      return $("#" + movement.scene + " " + movement.character).css({
-        opacity: sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
-        transform: "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
-      });
-    }
-  };
-
   sechzig.video = {
     initialize: function(movement) {
       return movement.video = movement.object[0];
@@ -424,50 +478,6 @@
       return movement.object.on('inactive', function() {
         return movement.video.pause();
       });
-    }
-  };
-
-  sechzig.canvas = {
-    initialize: function(movement) {
-      movement.canvas = movement.object[0];
-      movement.context = movement.canvas.getContext('2d');
-      movement.images = [];
-      this.buildImages(movement);
-      return this.getImageSizes(movement);
-    },
-    buildImages: function(movement) {
-      var i, img, j, ref;
-      for (i = j = 1, ref = movement.imageCount; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
-        img = new Image;
-        img.src = (movement.imagePath + i) + "." + movement.imageType;
-        movement.images.push(img);
-      }
-      return movement.images;
-    },
-    getImageSizes: function(movement) {
-      var img;
-      img = new Image;
-      $(img).on('load', function() {
-        movement.imageWidth = this.width;
-        movement.imageHeight = this.height;
-        return sechzig.canvas.setCanvasSize(movement);
-      });
-      return img.src = (movement.imagePath + 1) + "." + movement.imageType;
-    },
-    setCanvasSize: function(movement) {
-      movement.object.attr({
-        width: movement.imageWidth,
-        height: movement.imageHeight
-      });
-      return movement.object.css({
-        width: movement.imageWidth / 2,
-        height: movement.imageHeight / 2
-      });
-    },
-    scrubCanvas: function(movement) {
-      var frame;
-      frame = Math.min(Math.floor(sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)), movement.imageCount);
-      return movement.context.drawImage(movement.images[frame], 0, 0);
     }
   };
 

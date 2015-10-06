@@ -9,3 +9,5 @@ sechzig.movement =
         sechzig.video.playVideo(movement) unless movement.movementIsActive
       when "scrub-canvas"
         sechzig.canvas.scrubCanvas(movement)
+      when "draw-canvas"
+        sechzig.canvas.drawCanvas(movement)

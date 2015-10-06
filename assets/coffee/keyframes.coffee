@@ -1,19 +1,13 @@
 sechzig.keyframes = [
   movement =
-    type : "play-video"
-    scene : "scene-five"
-    character : "video"
-    startTime : 0
-    finishTime : 0.75
-  movement =
     scene : "scene-six"
     character : "canvas"
-    type : "scrub-canvas"
-    imagePath : "/images/canvas/wireless"
+    type : "draw-canvas"
+    imagePath : "/images/test/frame"
     imageType: "jpg"
-    imageCount: 26
-    startTime : 0.10
-    finishTime : 0.50
+    imageCount: 60
+    startTime : 0
+    finishTime : 1
   movement =
     scene : "scene-three"
     character : ".character"
