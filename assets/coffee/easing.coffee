@@ -1,5 +1,4 @@
 sechzig.easing =
-
   linear: (progress,startValue,valueChange,duration) ->
     valueChange*progress/duration + startValue
 

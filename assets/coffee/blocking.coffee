@@ -8,6 +8,8 @@ sechzig.blocking =
       if movement.scene == scene
         sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
+        sechzig.video.initialize(movement) if (movement.type == "play-video" or movement.type == "scrub-video")
+        sechzig.canvas.initialize(movement) if (movement.type == "scrub-canvas" or movement.type == "play-canvas")
         sceneMovements.push(movement)
     sceneMovements
 

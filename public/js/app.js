@@ -62,14 +62,20 @@
       return this.keyframes = sechzig.keyframes;
     },
     assignMovements: function(scene) {
-      var i, len, movement, ref, sceneMovements;
+      var j, len, movement, ref, sceneMovements;
       sceneMovements = [];
       ref = sechzig.blocking.keyframes;
-      for (i = 0, len = ref.length; i < len; i++) {
-        movement = ref[i];
+      for (j = 0, len = ref.length; j < len; j++) {
+        movement = ref[j];
         if (movement.scene === scene) {
           sechzig.blocking.setDefaultMovements(movement);
           sechzig.blocking.setMovementObject(movement);
+          if (movement.type === "play-video" || movement.type === "scrub-video") {
+            sechzig.video.initialize(movement);
+          }
+          if (movement.type === "scrub-canvas" || movement.type === "play-canvas") {
+            sechzig.canvas.initialize(movement);
+          }
           sceneMovements.push(movement);
         }
       }
@@ -113,11 +119,11 @@
       }
     },
     getBlockingProgress: function(scene) {
-      var i, len, movement, ref, results;
+      var j, len, movement, ref, results;
       ref = scene.blocking;
       results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        movement = ref[i];
+      for (j = 0, len = ref.length; j < len; j++) {
+        movement = ref[j];
         movement.startPixel = (movement.startTime * scene.duration) + scene.top;
         movement.finishPixel = (movement.finishTime * scene.duration) + scene.top;
         movement.pixelDistance = movement.finishPixel - movement.startPixel;
@@ -170,139 +176,75 @@
 
   sechzig.keyframes = [
     movement = {
-      'type': 'play-video',
-      'scene': 'scene-five',
-      'character': "video",
-      'startTime': 0,
-      'finishTime': 0.75
+      type: "play-video",
+      scene: "scene-five",
+      character: "video",
+      startTime: 0,
+      finishTime: 0.75
     }, movement = {
-      'scene': 'scene-three',
-      'character': ".character",
-      'startTime': 0,
-      'finishTime': 0.5,
-      'startValues': {
-        'rotate': 0
+      scene: "scene-six",
+      character: "canvas",
+      type: "scrub-canvas",
+      imagePath: "/images/canvas/wireless",
+      imageType: "jpg",
+      imageCount: 26,
+      startTime: 0.10,
+      finishTime: 0.50
+    }, movement = {
+      scene: "scene-three",
+      character: ".character",
+      startTime: 0,
+      finishTime: 0.5,
+      startValues: {
+        rotate: 0
       },
-      'finishValues': {
-        'rotate': 180
+      finishValues: {
+        rotate: 180
       }
     }, movement = {
-      'scene': 'scene-two',
-      'character': ".theng",
-      'startTime': 0,
-      'finishTime': 0.5,
-      'startValues': {
-        'scale': 4
+      scene: "scene-two",
+      character: ".theng",
+      startTime: 0,
+      finishTime: 0.5,
+      startValues: {
+        scale: 4
       },
-      'finishValues': {
-        'scale': 1
+      finishValues: {
+        scale: 1
       }
     }, movement = {
-      'scene': 'scene-two',
-      'character': ".thing",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'opacity': 0,
-        'scale': 0.8
+      scene: "scene-two",
+      character: ".thing",
+      startTime: 0.25,
+      finishTime: 0.5,
+      startValues: {
+        opacity: 0,
+        scale: 0.8
       },
-      'finishValues': {
-        'opacity': 1,
-        'scale': 1
-      }
-    }, movement = {
-      'scene': 'scene-four',
-      'character': ".theng",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'translateX': 0
-      },
-      'finishValues': {
-        'translateX': -25
-      }
-    }, movement = {
-      'scene': 'scene-four',
-      'character': ".theng",
-      'startTime': 0.5,
-      'finishTime': 0.75,
-      'startValues': {
-        'translateX': -25,
-        'translateY': 0
-      },
-      'finishValues': {
-        'translateX': -25,
-        'translateY': -25,
-        'opacity': 0
-      }
-    }, movement = {
-      'scene': 'scene-four',
-      'character': ".thang",
-      'startTime': 0.25,
-      'finishTime': 0.5,
-      'startValues': {
-        'translateX': 0
-      },
-      'finishValues': {
-        'translateX': 25
-      }
-    }, movement = {
-      'scene': 'scene-four',
-      'character': ".thang",
-      'startTime': 0.5,
-      'finishTime': 0.75,
-      'startValues': {
-        'translateX': 25,
-        'translateY': 0
-      },
-      'finishValues': {
-        'translateX': 25,
-        'translateY': 25,
-        'opacity': 0
+      finishValues: {
+        opacity: 1,
+        scale: 1
       }
     }
   ];
 
   sechzig.movement = {
-    initialize: function() {},
     directMovement: function(movement) {
       switch (movement.type) {
         case "css-animation":
-          return sechzig.movement.animateCSS(movement);
+          return sechzig.animation.animateCSS(movement);
         case "scrub-video":
-          movement.video = movement.object[0];
-          return sechzig.movement.scrubVideo(movement);
+          return sechzig.video.scrubVideo(movement);
         case "play-video":
-          movement.video = movement.object[0];
           if (!movement.movementIsActive) {
-            return sechzig.movement.playVideo(movement);
+            return sechzig.video.playVideo(movement);
           }
+          break;
+        case "scrub-canvas":
+          return sechzig.canvas.scrubCanvas(movement);
       }
-    },
-    animateCSS: function(movement) {
-      return $("#" + movement.scene + " " + movement.character).css({
-        'opacity': sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
-        'transform': "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
-      });
-    },
-    scrubVideo: function(movement) {
-      if (movement.video.networkState === 1) {
-        return movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance);
-      }
-    },
-    playVideo: function(movement) {
-      if (movement.video.networkState === 1) {
-        movement.video.play();
-      }
-      return movement.object.on('inactive', function() {
-        return movement.video.pause();
-      });
     }
   };
-
-  $(function() {
-    return sechzig.movement.initialize();
-  });
 
   sechzig.raf = {
     callbacks: [],
@@ -355,11 +297,11 @@
       return sechzig.raf.register(sechzig.scene.monitorScenes);
     },
     monitorScenes: function() {
-      var i, len, ref, results, scene;
+      var j, len, ref, results, scene;
       ref = sechzig.stage.scenes;
       results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        scene = ref[i];
+      for (j = 0, len = ref.length; j < len; j++) {
+        scene = ref[j];
         if (scene.sticky !== false) {
           sechzig.backing.setStickyScene(scene);
         }
@@ -456,5 +398,77 @@
   $(function() {
     return sechzig.stage.initialize();
   });
+
+  sechzig.animation = {
+    animateCSS: function(movement) {
+      return $("#" + movement.scene + " " + movement.character).css({
+        opacity: sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
+        transform: "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
+      });
+    }
+  };
+
+  sechzig.video = {
+    initialize: function(movement) {
+      return movement.video = movement.object[0];
+    },
+    scrubVideo: function(movement) {
+      if (movement.video.networkState === 1) {
+        return movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance);
+      }
+    },
+    playVideo: function(movement) {
+      if (movement.video.networkState === 1) {
+        movement.video.play();
+      }
+      return movement.object.on('inactive', function() {
+        return movement.video.pause();
+      });
+    }
+  };
+
+  sechzig.canvas = {
+    initialize: function(movement) {
+      movement.canvas = movement.object[0];
+      movement.context = movement.canvas.getContext('2d');
+      movement.images = [];
+      this.buildImages(movement);
+      return this.getImageSizes(movement);
+    },
+    buildImages: function(movement) {
+      var i, img, j, ref;
+      for (i = j = 1, ref = movement.imageCount; 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+        img = new Image;
+        img.src = (movement.imagePath + i) + "." + movement.imageType;
+        movement.images.push(img);
+      }
+      return movement.images;
+    },
+    getImageSizes: function(movement) {
+      var img;
+      img = new Image;
+      $(img).on('load', function() {
+        movement.imageWidth = this.width;
+        movement.imageHeight = this.height;
+        return sechzig.canvas.setCanvasSize(movement);
+      });
+      return img.src = (movement.imagePath + 1) + "." + movement.imageType;
+    },
+    setCanvasSize: function(movement) {
+      movement.object.attr({
+        width: movement.imageWidth,
+        height: movement.imageHeight
+      });
+      return movement.object.css({
+        width: movement.imageWidth / 2,
+        height: movement.imageHeight / 2
+      });
+    },
+    scrubCanvas: function(movement) {
+      var frame;
+      frame = Math.min(Math.floor(sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)), movement.imageCount);
+      return movement.context.drawImage(movement.images[frame], 0, 0);
+    }
+  };
 
 }).call(this);

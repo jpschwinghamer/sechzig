@@ -1,5 +1,4 @@
 sechzig.backing =
-
   setStickyScene: (scene) ->
       @backing = scene.object.find('.backing')
       switch scene.sticky
