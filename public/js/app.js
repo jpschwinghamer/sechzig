@@ -125,7 +125,15 @@
           movement.finishValues.rotate = movement.startValues.rotate;
         }
         if (movement.finishValues.scale == null) {
-          return movement.finishValues.scale = movement.startValues.scale;
+          movement.finishValues.scale = movement.startValues.scale;
+        }
+      }
+      if (movement.type === "draw-canvas") {
+        if (movement.canvasReady == null) {
+          movement.canvasReady = false;
+        }
+        if (movement.loop == null) {
+          return movement.loop = false;
         }
       }
     },
@@ -177,9 +185,8 @@
       movement.canvas = movement.object[0];
       movement.context = movement.canvas.getContext('2d');
       movement.images = [];
-      movement.playCount = 0;
-      this.buildImages(movement);
-      return this.getImageSizes(movement);
+      movement.playCount = 1;
+      return this.buildImages(movement);
     },
     buildImages: function(movement) {
       var i, img, j, ref;
@@ -188,17 +195,14 @@
         img.src = (movement.imagePath + i) + "." + movement.imageType;
         movement.images.push(img);
       }
-      return movement.images;
+      return sechzig.canvas.getImageSize(movement);
     },
-    getImageSizes: function(movement) {
-      var img;
-      img = new Image;
-      $(img).on('load', function() {
+    getImageSize: function(movement) {
+      return $(movement.images[movement.imageCount - 1]).on("load", function() {
         movement.imageWidth = this.width;
         movement.imageHeight = this.height;
         return sechzig.canvas.setCanvasSize(movement);
       });
-      return img.src = (movement.imagePath + 1) + "." + movement.imageType;
     },
     setCanvasSize: function(movement) {
       movement.object.attr({
@@ -209,21 +213,30 @@
         width: movement.imageWidth / 2,
         height: movement.imageHeight / 2
       });
-      return sechzig.canvas.setInitialFrame(movement);
+      return sechzig.canvas.preDraw(movement);
     },
-    setInitialFrame: function(movement) {
-      return movement.context.drawImage(movement.images[0], 0, 0);
+    preDraw: function(movement) {
+      var image, j, len, ref;
+      ref = movement.images;
+      for (j = 0, len = ref.length; j < len; j++) {
+        image = ref[j];
+        movement.context.drawImage(image, 0, 0);
+      }
+      return movement.canvasReady = true;
     },
     scrubCanvas: function(movement) {
       var frame;
-      frame = Math.max(Math.min(Math.floor(sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)), movement.imageCount), 0);
+      frame = Math.max(Math.min(Math.floor(sechzig.easing.expoInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)), movement.imageCount), 0);
       return movement.context.drawImage(movement.images[frame], 0, 0, movement.imageWidth, movement.imageHeight);
     },
     drawCanvas: function(movement) {
       if (movement.playCount < movement.imageCount) {
         return movement.context.drawImage(movement.images[movement.playCount++], 0, 0, movement.imageWidth, movement.imageHeight);
       } else {
-        return movement.playCount = 1;
+        movement.playCount = 1;
+        if (movement.loop === false) {
+          return movement.canvasReady = false;
+        }
       }
     }
   };
@@ -238,52 +251,64 @@
       } else {
         return -valueChange / 2 * ((progress -= 1) * (progress - 2) - 1) + startValue;
       }
+    },
+    expoInOut: function(progress, startValue, valueChange, duration) {
+      if (progress === 0) {
+        return startValue;
+      } else if (progress === duration) {
+        return startValue + valueChange;
+      } else if ((progress = progress / (duration / 2)) < 1) {
+        return valueChange / 2 * Math.pow(2, 10 * (progress - 1)) + startValue;
+      } else {
+        return valueChange / 2 * (-Math.pow(2, -10 * (progress - 1)) + 2) + startValue;
+      }
     }
   };
 
   sechzig.keyframes = [
     movement = {
-      scene: "scene-six",
+      scene: "scene-one",
       character: "canvas",
       type: "draw-canvas",
+      loop: true,
+      imagePath: "/images/test/frame",
+      imageType: "jpg",
+      imageCount: 60,
+      startTime: 0.333,
+      finishTime: 0.666
+    }, movement = {
+      scene: "scene-one",
+      character: "canvas",
+      startTime: 0.333,
+      finishTime: 0.666,
+      startValues: {
+        opacity: 1,
+        scale: 1,
+        rotate: 0
+      },
+      finishValues: {
+        opacity: 0,
+        scale: 0,
+        rotate: 360
+      }
+    }, movement = {
+      scene: "scene-two",
+      character: "canvas",
+      type: "scrub-canvas",
       imagePath: "/images/test/frame",
       imageType: "jpg",
       imageCount: 60,
       startTime: 0,
-      finishTime: 1
-    }, movement = {
-      scene: "scene-three",
-      character: ".character",
-      startTime: 0,
-      finishTime: 0.5,
-      startValues: {
-        rotate: 0
-      },
-      finishValues: {
-        rotate: 180
-      }
+      finishTime: 0.666
     }, movement = {
       scene: "scene-two",
-      character: ".theng",
+      character: "canvas",
       startTime: 0,
-      finishTime: 0.5,
+      finishTime: 0.666,
       startValues: {
-        scale: 4
+        scale: 1.5
       },
       finishValues: {
-        scale: 1
-      }
-    }, movement = {
-      scene: "scene-two",
-      character: ".thing",
-      startTime: 0.25,
-      finishTime: 0.5,
-      startValues: {
-        opacity: 0,
-        scale: 0.8
-      },
-      finishValues: {
-        opacity: 1,
         scale: 1
       }
     }
@@ -302,9 +327,14 @@
           }
           break;
         case "scrub-canvas":
-          return sechzig.canvas.scrubCanvas(movement);
+          if (movement.canvasReady) {
+            return sechzig.canvas.scrubCanvas(movement);
+          }
+          break;
         case "draw-canvas":
-          return sechzig.canvas.drawCanvas(movement);
+          if (movement.canvasReady) {
+            return sechzig.canvas.drawCanvas(movement);
+          }
       }
     }
   };

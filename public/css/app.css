@@ -6,17 +6,35 @@
 }
 
 /* line 6, ../../assets/sass/app.sass */
+body {
+  font-family: "SQMarket-light";
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* line 13, ../../assets/sass/app.sass */
+h1, h2, h3, h4, p {
+  font-weight: 300 !important;
+  color: #2e3b4e;
+}
+
+/* line 17, ../../assets/sass/app.sass */
+h3 {
+  font-size: 22px;
+  line-height: 30px;
+  margin-bottom: 20px;
+}
+
+/* line 22, ../../assets/sass/app.sass */
 .scene {
   position: relative;
   overflow: hidden;
   height: 100vh;
   z-index: 2;
 }
-/* line 11, ../../assets/sass/app.sass */
-.scene:nth-child(odd) {
-  background-color: #ddd;
-}
-/* line 13, ../../assets/sass/app.sass */
+/* line 27, ../../assets/sass/app.sass */
 .scene .marker {
   position: absolute;
   left: 50%;
@@ -25,53 +43,25 @@
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
-/* line 18, ../../assets/sass/app.sass */
+/* line 32, ../../assets/sass/app.sass */
 .scene .blocking {
   height: 100vh;
   width: 100vw;
   position: relative;
 }
-/* line 22, ../../assets/sass/app.sass */
+/* line 36, ../../assets/sass/app.sass */
 .scene .backing {
   will-change: transform;
 }
-/* line 24, ../../assets/sass/app.sass */
-.scene .character {
-  will-change: opacity, transform;
-  background-color: #aaa;
-  width: 25vh;
-  height: 25vh;
-}
-/* line 29, ../../assets/sass/app.sass */
-.scene.scene-five {
-  height: 300vh;
-}
-/* line 31, ../../assets/sass/app.sass */
-.scene.scene-six {
-  height: 200vh;
-}
-/* line 33, ../../assets/sass/app.sass */
-.scene .row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-/* line 35, ../../assets/sass/app.sass */
-.scene .row > * {
-  margin: 2vh;
-}
-/* line 37, ../../assets/sass/app.sass */
-.scene .thing {
-  opacity: 0;
-}
+
 /* line 39, ../../assets/sass/app.sass */
-.scene video {
-  min-width: 100%;
-  min-height: 100%;
+.scene-one {
+  height: 200vh;
+  background-color: blue;
 }
-/* line 42, ../../assets/sass/app.sass */
-.scene canvas {
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+
+/* line 43, ../../assets/sass/app.sass */
+.scene-two {
+  height: 200vh;
+  background-color: red;
 }

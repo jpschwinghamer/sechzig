@@ -8,8 +8,10 @@ sechzig.blocking =
       if movement.scene == scene
         sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
-        sechzig.video.initialize(movement) if (movement.type == "play-video" or movement.type == "scrub-video")
-        sechzig.canvas.initialize(movement) if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
+        if (movement.type == "play-video" or movement.type == "scrub-video")
+          sechzig.video.initialize(movement)
+        if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
+          sechzig.canvas.initialize(movement)
         sceneMovements.push(movement)
     sceneMovements
 
@@ -40,6 +42,12 @@ sechzig.blocking =
         movement.finishValues.rotate = movement.startValues.rotate
       unless movement.finishValues.scale?
         movement.finishValues.scale = movement.startValues.scale
+
+    if movement.type == "draw-canvas"
+      unless movement.canvasReady?
+        movement.canvasReady = false
+      unless movement.loop?
+        movement.loop = false
 
   getBlockingProgress: (scene) ->
     for movement in scene.blocking

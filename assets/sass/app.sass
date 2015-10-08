@@ -3,13 +3,27 @@
   padding: 0
   box-sizing: border-box
 
+body
+  font-family: "SQMarket-light"
+  font-size: 14px
+  line-height: 20px
+  -webkit-font-smoothing: antialiased
+  text-rendering: optimizeLegibility
+
+h1, h2, h3, h4, p
+  font-weight: 300 !important
+  color: #2e3b4e
+
+h3
+  font-size: 22px
+  line-height: 30px
+  margin-bottom: 20px
+
 .scene
   position: relative
   overflow: hidden
   height: 100vh
   z-index: 2
-  &:nth-child(odd)
-    background-color: #ddd
   .marker
     position: absolute
     left: 50%
@@ -21,23 +35,11 @@
     position: relative
   .backing
     will-change: transform
-  .character
-    will-change: opacity, transform
-    background-color: #aaa
-    width: 25vh
-    height: 25vh
-  &.scene-five
-    height: 300vh
-  &.scene-six
-    height: 200vh
-  .row
-    display: flex
-    > *
-      margin: 2vh
-  .thing
-    opacity: 0
-  video
-    min-width: 100%
-    min-height: 100%
-  canvas
-    transform: translateZ(0)
+
+.scene-one
+  height: 200vh
+  background-color: blue
+
+.scene-two
+  height: 200vh
+  background-color: red
