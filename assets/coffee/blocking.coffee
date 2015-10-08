@@ -16,9 +16,13 @@ sechzig.blocking =
     sceneMovements
 
   setDefaultMovements: (movement) ->
-    # Types
+    # Global
+    unless movement.movementIsActive?
+      movement.movementIsActive = false
     unless movement.type?
       movement.type = "css-animation"
+    unless movement.loop?
+      movement.loop = false
 
     # Animation defaults
     if movement.type == "css-animation"
@@ -32,6 +36,8 @@ sechzig.blocking =
         movement.startValues.rotate = 0
       unless movement.startValues.scale?
         movement.startValues.scale = 1
+      unless movement.startValues.blur?
+        movement.startValues.blur = 0
       unless movement.finishValues.opacity?
         movement.finishValues.opacity = movement.startValues.opacity
       unless movement.finishValues.translateX?
@@ -42,12 +48,12 @@ sechzig.blocking =
         movement.finishValues.rotate = movement.startValues.rotate
       unless movement.finishValues.scale?
         movement.finishValues.scale = movement.startValues.scale
+      unless movement.startValues.blur?
+        movement.startValues.blur = movement.startValues.blur
 
     if movement.type == "draw-canvas"
       unless movement.canvasReady?
         movement.canvasReady = false
-      unless movement.loop?
-        movement.loop = false
 
   getBlockingProgress: (scene) ->
     for movement in scene.blocking
