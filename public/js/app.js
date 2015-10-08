@@ -111,8 +111,14 @@
       return sceneMovements;
     },
     setDefaultMovements: function(movement) {
+      if (movement.movementIsActive == null) {
+        movement.movementIsActive = false;
+      }
       if (movement.type == null) {
         movement.type = "css-animation";
+      }
+      if (movement.loop == null) {
+        movement.loop = false;
       }
       if (movement.type === "css-animation") {
         if (movement.startValues.opacity == null) {
@@ -343,10 +349,7 @@
         case "scrub-video":
           return sechzig.video.scrubVideo(movement);
         case "play-video":
-          if (!movement.movementIsActive) {
-            return sechzig.video.playVideo(movement);
-          }
-          break;
+          return sechzig.video.playVideo(movement);
         case "scrub-canvas":
           if (movement.canvasReady) {
             return sechzig.canvas.scrubCanvas(movement);
@@ -515,7 +518,8 @@
 
   sechzig.video = {
     initialize: function(movement) {
-      return movement.video = movement.object[0];
+      movement.video = movement.object[0];
+      return movement.object.attr('loop', 'true');
     },
     scrubVideo: function(movement) {
       if (movement.video.networkState === 1) {
