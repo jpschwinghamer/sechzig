@@ -65,6 +65,23 @@
               });
             }
           }
+          break;
+        case "bottom-hold":
+          if (sechzig.scroll.scrollBottom < scene.top) {
+            return this.backing.css({
+              'position': 'relative',
+              'bottom': 0,
+              'top': 0
+            });
+          } else {
+            if (sechzig.scroll.scrollBottom <= scene.bottom) {
+              return this.backing.css({
+                'position': 'fixed',
+                'bottom': 'auto',
+                'top': 0
+              });
+            }
+          }
       }
     }
   };
@@ -113,6 +130,9 @@
         if (movement.startValues.scale == null) {
           movement.startValues.scale = 1;
         }
+        if (movement.startValues.blur == null) {
+          movement.startValues.blur = 0;
+        }
         if (movement.finishValues.opacity == null) {
           movement.finishValues.opacity = movement.startValues.opacity;
         }
@@ -128,13 +148,13 @@
         if (movement.finishValues.scale == null) {
           movement.finishValues.scale = movement.startValues.scale;
         }
+        if (movement.startValues.blur == null) {
+          movement.startValues.blur = movement.startValues.blur;
+        }
       }
       if (movement.type === "draw-canvas") {
         if (movement.canvasReady == null) {
-          movement.canvasReady = false;
-        }
-        if (movement.loop == null) {
-          return movement.loop = false;
+          return movement.canvasReady = false;
         }
       }
     },
