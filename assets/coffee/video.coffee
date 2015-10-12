@@ -1,7 +1,7 @@
 sechzig.video =
   initialize: (movement) ->
     movement.video = movement.object[0]
-    movement.object.attr('loop', 'true')
+    movement.object.attr('loop', movement.loop)
 
   scrubVideo: (movement) ->
     if movement.video.networkState == 1
