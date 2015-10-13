@@ -1,45 +1,39 @@
-*
-  margin: 0
-  padding: 0
-  box-sizing: border-box
-
-body
-  font-family: "SQMarket-light"
-  font-size: 14px
-  line-height: 20px
-  -webkit-font-smoothing: antialiased
-  text-rendering: optimizeLegibility
-
-h1, h2, h3, h4, p
-  font-weight: 300 !important
-  color: #2e3b4e
-
-h3
-  font-size: 22px
-  line-height: 30px
-  margin-bottom: 20px
+@import "public-web-styles/all"
 
 .scene
   position: relative
   overflow: hidden
-  height: 100vh
-  z-index: 2
+  min-height: 100vh
+  z-index: 1
   .marker
     position: absolute
     left: 50%
     top: 50%
     transform: translate(-50%,-50%)
   .blocking
-    height: 100vh
+    min-height: 100vh
     width: 100vw
     position: relative
   .backing
     will-change: transform
 
-.scene-one
-  height: 200vh
-  background-color: blue
 
-.scene-two
-  height: 200vh
-  background-color: red
+.scene-one
+  h3
+    +center-horizontally(11em, ($breakpoint-width-extra-small, 18.6em))
+  p
+    +center-horizontally(17em, ($breakpoint-width-extra-small, 22em), ($breakpoint-width-medium, 100%))
+
+.scene-two,
+.scene-four
+  height: 300vh
+
+.scene-three
+  video
+    max-width: 100%
+
+.scene-four
+  .copy,
+  .imageb,
+  .imagec
+    opacity: 0

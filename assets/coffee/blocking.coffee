@@ -51,9 +51,15 @@ sechzig.blocking =
       unless movement.startValues.blur?
         movement.startValues.blur = movement.startValues.blur
 
+    # Canvas defaults
     if movement.type == "draw-canvas"
       unless movement.canvasReady?
         movement.canvasReady = false
+
+    # Video defaults
+    if movement.type == "play-video"
+      unless movement.muted?
+        movement.muted = false
 
   getBlockingProgress: (scene) ->
     for movement in scene.blocking
