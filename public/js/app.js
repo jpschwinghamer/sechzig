@@ -23,22 +23,22 @@
         case "top":
           if (sechzig.scroll.scrollTop < scene.top) {
             return this.backing.css({
-              'position': 'relative',
-              'bottom': 0,
-              'top': 0
+              position: 'relative',
+              bottom: 0,
+              top: 0
             });
           } else {
             if (sechzig.scroll.scrollBottom <= scene.bottom) {
               return this.backing.css({
-                'position': 'fixed',
-                'bottom': 'auto',
-                'top': 0
+                position: 'fixed',
+                bottom: 'auto',
+                top: 0
               });
             } else {
               return this.backing.css({
-                'position': 'absolute',
-                'bottom': 0,
-                'top': 'auto'
+                position: 'absolute',
+                bottom: 0,
+                top: 'auto'
               });
             }
           }
@@ -46,22 +46,22 @@
         case "bottom":
           if (sechzig.scroll.scrollBottom < scene.top) {
             return this.backing.css({
-              'position': 'relative',
-              'bottom': 0,
-              'top': 0
+              position: 'relative',
+              bottom: 0,
+              top: 0
             });
           } else {
             if (sechzig.scroll.scrollBottom <= scene.bottom) {
               return this.backing.css({
-                'position': 'fixed',
-                'bottom': 'auto',
-                'top': 0
+                position: 'fixed',
+                bottom: auto,
+                top: 0
               });
             } else {
               return this.backing.css({
-                'position': 'absolute',
-                'bottom': '0',
-                'top': 'auto'
+                position: 'absolute',
+                bottom: 0,
+                top: 'auto'
               });
             }
           }
@@ -69,16 +69,25 @@
         case "bottom-hold":
           if (sechzig.scroll.scrollBottom < scene.top) {
             return this.backing.css({
-              'position': 'relative',
-              'bottom': 0,
-              'top': 0
+              position: 'relative',
+              bottom: 0,
+              top: 0,
+              visibility: 'hidden'
             });
           } else {
-            if (sechzig.scroll.scrollBottom <= scene.bottom) {
+            if (sechzig.scroll.scrollTop >= scene.bottom) {
               return this.backing.css({
-                'position': 'fixed',
-                'bottom': 'auto',
-                'top': 0
+                position: 'absolute',
+                bottom: 0,
+                top: 'auto',
+                visibility: 'hidden'
+              });
+            } else {
+              return this.backing.css({
+                position: 'fixed',
+                bottom: 'auto',
+                top: 0,
+                visibility: 'visible'
               });
             }
           }
@@ -339,7 +348,7 @@
       }
     }, movement = {
       scene: 'scene-one',
-      character: 'svg',
+      character: '.icon',
       startTime: 0.5,
       finishTime: 0.75,
       startValues: {

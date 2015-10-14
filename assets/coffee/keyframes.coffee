@@ -40,7 +40,7 @@ sechzig.keyframes = [
     }
   movement =
     scene: 'scene-one'
-    character: 'svg'
+    character: '.icon'
     startTime: 0.5
     finishTime: 0.75
     startValues: {
