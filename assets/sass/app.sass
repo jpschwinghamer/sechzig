@@ -10,6 +10,13 @@
     left: 50%
     top: 50%
     transform: translate(-50%,-50%)
+  .video-marker
+    position: absolute
+    left: 50%
+    top: 50%
+    min-width: 100%
+    min-height: 100%
+    transform: translate(-50%,-50%)
   .blocking
     min-height: 100vh
     width: 100vw
@@ -17,23 +24,11 @@
   .backing
     will-change: transform
 
-
 .scene-one
   h3
     +center-horizontally(11em, ($breakpoint-width-extra-small, 18.6em))
   p
     +center-horizontally(17em, ($breakpoint-width-extra-small, 22em), ($breakpoint-width-medium, 100%))
 
-.scene-two,
-.scene-four
-  height: 300vh
-
-.scene-three
-  video
-    max-width: 100%
-
-.scene-four
-  .copy,
-  .imageb,
-  .imagec
-    opacity: 0
+.scene-two
+  height: 200vh

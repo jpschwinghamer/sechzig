@@ -6,10 +6,34 @@
 
   sechzig.animation = {
     animateCSS: function(movement) {
-      return $("#" + movement.scene + " " + movement.character).css({
-        webkitFilter: "blur(" + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.blur, movement.finishValues.blur - movement.startValues.blur, movement.pixelDistance)) + "px)",
-        opacity: sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.opacity, movement.finishValues.opacity - movement.startValues.opacity, movement.pixelDistance),
-        transform: "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateX, movement.finishValues.translateX - movement.startValues.translateX, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.translateY, movement.finishValues.translateY - movement.startValues.translateY, movement.pixelDistance)) + "vh, 0) rotate( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.rotate, movement.finishValues.rotate - movement.startValues.rotate, movement.pixelDistance)) + "deg) scale( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.startValues.scale, movement.finishValues.scale - movement.startValues.scale, movement.pixelDistance)) + ")"
+      var blur, character, opacity, rotate, scale, translate;
+      character = $("#" + movement.scene + " " + movement.character);
+      blur = "";
+      opacity = "";
+      translate = "";
+      rotate = "";
+      scale = "";
+      if (movement.values.blur != null) {
+        blur = "blur(" + (sechzig.easing.quadInOut(movement.pixelProgress, movement.values.blur[0], movement.values.blur[1] - movement.values.blur[0], movement.pixelDistance)) + "px)";
+      }
+      if (movement.values.opacity != null) {
+        opacity = sechzig.easing.quadInOut(movement.pixelProgress, movement.values.opacity[0], movement.values.opacity[1] - movement.values.opacity[0], movement.pixelDistance);
+      }
+      if (movement.values.transform != null) {
+        if (movement.values.transform.translate != null) {
+          translate = "translate3d( " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.values.transform.translate[0].x, movement.values.transform.translate[1].x - movement.values.transform.translate[0].x, movement.pixelDistance)) + "vw, " + (sechzig.easing.quadInOut(movement.pixelProgress, movement.values.transform.translate[0].y, movement.values.transform.translate[1].y - movement.values.transform.translate[0].y, movement.pixelDistance)) + "vh, 0)";
+        }
+        if (movement.values.transform.rotate != null) {
+          rotate = "rotate(" + (sechzig.easing.quadInOut(movement.pixelProgress, movement.values.transform.rotate[0], movement.values.transform.rotate[1] - movement.values.transform.rotate[0], movement.pixelDistance)) + "deg";
+        }
+        if (movement.values.transform.scale != null) {
+          scale = "scale(" + (sechzig.easing.quadInOut(movement.pixelProgress, movement.values.transform.scale[0], movement.values.transform.scale[1] - movement.values.transform.scale[0], movement.pixelDistance)) + ")";
+        }
+      }
+      return character.css({
+        webkitFilter: blur,
+        opacity: opacity,
+        transform: scale + " " + translate + " " + rotate
       });
     }
   };
@@ -128,44 +152,6 @@
       }
       if (movement.loop == null) {
         movement.loop = false;
-      }
-      if (movement.type === "css-animation") {
-        if (movement.startValues.opacity == null) {
-          movement.startValues.opacity = 1;
-        }
-        if (movement.startValues.translateX == null) {
-          movement.startValues.translateX = 0;
-        }
-        if (movement.startValues.translateY == null) {
-          movement.startValues.translateY = 0;
-        }
-        if (movement.startValues.rotate == null) {
-          movement.startValues.rotate = 0;
-        }
-        if (movement.startValues.scale == null) {
-          movement.startValues.scale = 1;
-        }
-        if (movement.startValues.blur == null) {
-          movement.startValues.blur = 0;
-        }
-        if (movement.finishValues.opacity == null) {
-          movement.finishValues.opacity = movement.startValues.opacity;
-        }
-        if (movement.finishValues.translateX == null) {
-          movement.finishValues.translateX = movement.startValues.translateX;
-        }
-        if (movement.finishValues.translateY == null) {
-          movement.finishValues.translateY = movement.startValues.translateY;
-        }
-        if (movement.finishValues.rotate == null) {
-          movement.finishValues.rotate = movement.startValues.rotate;
-        }
-        if (movement.finishValues.scale == null) {
-          movement.finishValues.scale = movement.startValues.scale;
-        }
-        if (movement.startValues.blur == null) {
-          movement.startValues.blur = movement.startValues.blur;
-        }
       }
       if (movement.type === "draw-canvas") {
         if (movement.canvasReady == null) {
@@ -312,170 +298,190 @@
       character: 'img',
       startTime: 0.5,
       finishTime: 0.75,
-      startValues: {
-        opacity: 1,
-        translateY: 0
-      },
-      finishValues: {
-        opacity: -0.1,
-        translateY: -20
+      values: {
+        opacity: [1, -0.1],
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -10
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-one',
       character: 'h3',
       startTime: 0.5,
       finishTime: 0.75,
-      startValues: {
-        opacity: 1,
-        translateY: 0
-      },
-      finishValues: {
-        opacity: -0.1,
-        translateY: -17
+      values: {
+        opacity: [1, -0.1],
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -7
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-one',
       character: 'p',
       startTime: 0.5,
       finishTime: 0.75,
-      startValues: {
-        opacity: 1,
-        translateY: 0
-      },
-      finishValues: {
-        opacity: -0.1,
-        translateY: -14
+      values: {
+        opacity: [1, -0.1],
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -4
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-one',
       character: '.icon',
       startTime: 0.5,
-      finishTime: 0.75,
-      startValues: {
-        opacity: 1,
-        translateY: 0
-      },
-      finishValues: {
-        opacity: 0,
-        translateY: -11
+      finishTime: 0.8,
+      values: {
+        opacity: [1, -0.1],
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -1
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-two',
       character: '.content',
       startTime: 0,
-      finishTime: 0.25,
-      startValues: {
-        opacity: 0,
-        translateY: 10
-      },
-      finishValues: {
-        opacity: 1.1,
-        translateY: 0
+      finishTime: 0.333,
+      values: {
+        opacity: [0, 1],
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 10
+            }, {
+              x: 0,
+              y: 0
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-two',
       character: '.content',
-      startTime: 0.25,
-      finishTime: 0.5,
-      startValues: {
-        translateY: 0
-      },
-      finishValues: {
-        translateY: -10
+      startTime: 0.333,
+      finishTime: 0.666,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -10
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-two',
       character: '.step1',
-      startTime: 0.25,
-      finishTime: 0.5,
-      startValues: {
-        opacity: 1
-      },
-      finishValues: {
-        opacity: -0.1
+      startTime: 0.333,
+      finishTime: 0.666,
+      values: {
+        opacity: [1, 0]
+      }
+    }, movement = {
+      scene: 'scene-two',
+      character: 'img',
+      startTime: 0.333,
+      finishTime: 0.666,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -10
+            }
+          ]
+        }
+      }
+    }, movement = {
+      scene: 'scene-two',
+      character: 'p',
+      startTime: 0.333,
+      finishTime: 0.666,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -7
+            }
+          ]
+        }
+      }
+    }, movement = {
+      scene: 'scene-two',
+      character: 'cite',
+      startTime: 0.333,
+      finishTime: 0.666,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: -5
+            }
+          ]
+        }
       }
     }, movement = {
       scene: 'scene-two',
       character: 'video',
       type: 'play-video',
-      startTime: 0.3,
+      startTime: 0.333,
       finishTime: 1,
       muted: true
     }, movement = {
       scene: 'scene-two',
       character: 'video',
-      startTime: 0.75,
+      startTime: 0.7,
       finishTime: 1,
-      startValues: {
-        opacity: 1
-      },
-      finishValues: {
-        opacity: -0.1
-      }
-    }, movement = {
-      scene: 'scene-four',
-      character: '.imagea',
-      startTime: 0,
-      finishTime: 0.5,
-      startValues: {
-        scale: 6,
-        translateY: 10
-      },
-      finishValues: {
-        scale: 1,
-        translateY: 0
-      }
-    }, movement = {
-      scene: 'scene-four',
-      character: '.imageb',
-      startTime: 0.45,
-      finishTime: 0.75,
-      startValues: {
-        opacity: 0,
-        translateY: 20
-      },
-      finishValues: {
-        opacity: 1,
-        translateY: 0
-      }
-    }, movement = {
-      scene: 'scene-four',
-      character: '.imagec',
-      startTime: 0.45,
-      finishTime: 0.75,
-      startValues: {
-        opacity: 0,
-        translateY: 15
-      },
-      finishValues: {
-        opacity: 1,
-        translateY: 0
-      }
-    }, movement = {
-      scene: 'scene-four',
-      character: '.copy',
-      startTime: 0.4,
-      finishTime: 0.75,
-      startValues: {
-        opacity: 0,
-        translateY: 10
-      },
-      finishValues: {
-        opacity: 1,
-        translateY: 0
-      }
-    }, movement = {
-      scene: 'scene-four',
-      character: '.content',
-      startTime: 0.75,
-      finishTime: 1,
-      startValues: {
-        opacity: 1,
-        translateY: 0
-      },
-      finishValues: {
-        opacity: 0,
-        translateY: 10
+      values: {
+        opacity: [1, 0]
       }
     }
   ];
@@ -659,8 +665,7 @@
     initialize: function(movement) {
       movement.video = movement.object[0];
       movement.object.prop('loop', movement.loop);
-      movement.object.prop('muted', movement.muted);
-      return movement.video.currentTime = 33.5;
+      return movement.object.prop('muted', movement.muted);
     },
     scrubVideo: function(movement) {
       if (movement.video.networkState === 1) {

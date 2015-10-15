@@ -3,7 +3,6 @@ sechzig.video =
     movement.video = movement.object[0]
     movement.object.prop('loop', movement.loop)
     movement.object.prop('muted', movement.muted)
-    movement.video.currentTime = 33.5
 
   scrubVideo: (movement) ->
     if movement.video.networkState == 1
