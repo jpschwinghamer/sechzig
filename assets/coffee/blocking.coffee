@@ -8,6 +8,8 @@ sechzig.blocking =
       if movement.scene == scene
         sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
+        if (movement.type == "play-css-animation")
+          sechzig.animation.initialize(movement) unless movement.played
         if (movement.type == "play-video" or movement.type == "scrub-video")
           sechzig.video.initialize(movement)
         if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
@@ -20,7 +22,11 @@ sechzig.blocking =
     unless movement.movementIsActive?
       movement.movementIsActive = false
     unless movement.type?
-      movement.type = "css-animation"
+      movement.type = "scrub-css-animation"
+    unless movement.startTime?
+      movement.startTime = 0
+    unless movement.finishTime?
+      movement.finishTime = 1
     unless movement.loop?
       movement.loop = false
 

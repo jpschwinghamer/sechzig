@@ -30,7 +30,7 @@ sechzig.backing =
             if sechzig.scroll.scrollBottom <= scene.bottom
               @backing.css
                 position : 'fixed'
-                bottom : auto
+                bottom : 'auto'
                 top : 0
             else
               @backing.css

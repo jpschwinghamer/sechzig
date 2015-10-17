@@ -1,8 +1,10 @@
 sechzig.movement =
   directMovement: (movement) ->
     switch movement.type
-      when "css-animation"
-        sechzig.animation.animateCSS(movement)
+      when "scrub-css-animation"
+        sechzig.animation.scrubCSS(movement)
+      when "play-css-animation"
+        sechzig.animation.playCSS(movement) unless movement.played
       when "scrub-video"
         sechzig.video.scrubVideo(movement)
       when "play-video"
