@@ -179,10 +179,43 @@ sechzig.keyframes = [
     scene: 'scene-four'
     character: '.horz-gallery'
     startTime: 0.20
-    finishTime: 0.80
+    finishTime: 0.30
     values: {
       transform: {
-        translate: [{x: 200, y: 0}, {x: -200, y: 0}]
+        translate: [{x: 200, y: 0}, {x: 100, y: 0}]
+      }
+    }
+
+  movement =
+    scene: 'scene-four'
+    character: '.horz-gallery'
+    startTime: 0.35
+    finishTime: 0.45
+    values: {
+      transform: {
+        translate: [{x: 100, y: 0}, {x: 0, y: 0}]
+      }
+    }
+
+  movement =
+    scene: 'scene-four'
+    character: '.horz-gallery'
+    startTime: 0.50
+    finishTime: 0.60
+    values: {
+      transform: {
+        translate: [{x: 0, y: 0}, {x: -100, y: 0}]
+      }
+    }
+
+  movement =
+    scene: 'scene-four'
+    character: '.horz-gallery'
+    startTime: 0.65
+    finishTime: 0.75
+    values: {
+      transform: {
+        translate: [{x: -100, y: 0}, {x: -200, y: 0}]
       }
     }
 ]
