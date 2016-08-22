@@ -19,6 +19,27 @@ sechzig.backing =
                 position : 'absolute'
                 bottom : 0
                 top : 'auto'
+        when "top-hold"
+          if sechzig.scroll.scrollTop > cue.bottom
+            @backing.css
+              position : 'relative'
+              bottom : 0
+              top : 'auto'
+              visibility: 'hidden'
+          # else
+          else
+            if sechzig.scroll.scrollTop <= cue.top
+              @backing.css
+                position : 'absolute'
+                bottom : 'auto'
+                top : 0
+                visibility: 'visible'
+            else
+              @backing.css
+                position : 'fixed'
+                bottom : 'auto'
+                top : 0
+                visibility: 'visible'
 
         when "bottom"
           if sechzig.scroll.scrollBottom < cue.top
