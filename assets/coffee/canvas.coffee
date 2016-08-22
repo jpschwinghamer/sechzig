@@ -31,6 +31,7 @@ sechzig.canvas =
   preDraw: (movement) ->
     for image in movement.images
       movement.context.drawImage(image,0,0)
+    movement.context.drawImage(movement.images[0],0,0)
     movement.canvasReady = true
 
   scrubCanvas: (movement) ->

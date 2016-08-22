@@ -1,6 +1,11 @@
 sechzig.stage =
   initialize: ->
+    @arrangeStage()
     @arrangeScenes()
+
+  arrangeStage: ->
+    sechzig.stage.duration = $('body').height()
+    sechzig.stage.progress = 0
 
   arrangeScenes: ->
     @scenes = []

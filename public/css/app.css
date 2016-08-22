@@ -6348,20 +6348,17 @@ html *, html *:before, html *:after {
 /* line 12, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 body,
 .main-content {
-  max-width: 1680px;
-  margin-left: auto;
-  margin-right: auto;
   overflow-x: hidden;
 }
 
-/* line 17, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+/* line 16, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 hr {
   border: none;
   border-top: 1px solid #e0e0e0;
   margin: 30px auto;
 }
 @media (-webkit-min-device-pixel-ratio: 1.75), (min-resolution: 168dpi) {
-  /* line 17, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+  /* line 16, ../../assets/sass/public-web-styles/core/layout/_global.sass */
   hr {
     border: none;
     height: 1px;
@@ -6372,23 +6369,23 @@ hr {
   }
 }
 
-/* line 28, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+/* line 27, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 img {
   max-width: 100%;
   display: block;
 }
-/* line 31, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+/* line 30, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 img.off-grid {
   max-width: none !important;
 }
 
-/* line 34, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+/* line 33, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 section {
   position: relative;
   z-index: 1;
   background-color: white;
 }
-/* line 46, ../../assets/sass/public-web-styles/core/layout/_global.sass */
+/* line 45, ../../assets/sass/public-web-styles/core/layout/_global.sass */
 section *:last-child {
   margin-bottom: 0;
 }
@@ -7648,50 +7645,7 @@ pre {
           transform: translate(-50%, -50%);
 }
 /* line 13, ../../assets/sass/app.sass */
-.scene .video-marker {
-  position: absolute;
-  left: 50vw;
-  top: 50vh;
-  min-width: 100%;
-  min-height: 100%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-/* line 20, ../../assets/sass/app.sass */
-.scene .blocking {
-  min-height: 100vh;
-  width: 100vw;
-  position: relative;
-}
-/* line 24, ../../assets/sass/app.sass */
 .scene .backing {
+  min-height: 100vh;
   will-change: transform;
-}
-
-/* line 27, ../../assets/sass/app.sass */
-.scene-one,
-.scene-two,
-.scene-three,
-.scene-four,
-.scene-five,
-.scene-six,
-.scene-seven,
-.scene-ten {
-  height: 800vh;
-}
-
-/* line 41, ../../assets/sass/app.sass */
-.scene-four .column:nth-child(4n+3) .cell,
-.scene-four .column:nth-child(4n+4) .cell {
-  -webkit-transform-origin: -600px 0;
-      -ms-transform-origin: -600px 0;
-          transform-origin: -600px 0;
-}
-/* line 45, ../../assets/sass/app.sass */
-.scene-four .column:nth-child(4n+1) .cell,
-.scene-four .column:nth-child(4n+2) .cell {
-  -webkit-transform-origin: 600px 0;
-      -ms-transform-origin: 600px 0;
-          transform-origin: 600px 0;
 }
