@@ -4,7 +4,7 @@ sechzig.movement =
       when "scrub-css-animation"
         sechzig.animation.scrubCSS(movement)
       when "play-css-animation"
-        sechzig.animation.playCSS(movement) unless movement.played
+        sechzig.animation.playCSS(movement)
       when "scrub-video"
         sechzig.video.scrubVideo(movement)
       when "play-video"

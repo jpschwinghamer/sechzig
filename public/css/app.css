@@ -7650,11 +7650,34 @@ pre {
   will-change: transform;
 }
 
-/* line 17, ../../assets/sass/app.sass */
-.thing {
-  position: fixed;
+/* line 20, ../../assets/sass/app.sass */
+.stage-progress-bar {
   width: 100vw;
   height: 1vh;
-  z-index: 1;
+  position: fixed;
   top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+/* line 28, ../../assets/sass/app.sass */
+.double {
+  height: 200vh;
+}
+
+/* line 31, ../../assets/sass/app.sass */
+.quadruple {
+  height: 400vh;
+}
+
+/* line 34, ../../assets/sass/app.sass */
+.scene-progress-bar {
+  width: 100vw;
+  height: 1vh;
+  z-index: 2;
+}
+
+/* line 39, ../../assets/sass/app.sass */
+.thing {
+  height: 50vh;
 }

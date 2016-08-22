@@ -145,6 +145,32 @@
             }
           }
           break;
+        case "top-hold":
+          if (sechzig.scroll.scrollTop > cue.bottom) {
+            return this.backing.css({
+              position: 'relative',
+              bottom: 0,
+              top: 'auto',
+              visibility: 'hidden'
+            });
+          } else {
+            if (sechzig.scroll.scrollTop <= cue.top) {
+              return this.backing.css({
+                position: 'absolute',
+                bottom: 'auto',
+                top: 0,
+                visibility: 'visible'
+              });
+            } else {
+              return this.backing.css({
+                position: 'fixed',
+                bottom: 'auto',
+                top: 0,
+                visibility: 'visible'
+              });
+            }
+          }
+          break;
         case "bottom":
           if (sechzig.scroll.scrollBottom < cue.top) {
             return this.backing.css({
@@ -356,6 +382,56 @@
     }
   };
 
+  sechzig.cue = {
+    initialize: function() {
+      return sechzig.raf.register(sechzig.cue.monitorCues);
+    },
+    monitorCues: function() {
+      var cue, j, len, ref, results;
+      ref = sechzig.stage.cues;
+      results = [];
+      for (j = 0, len = ref.length; j < len; j++) {
+        cue = ref[j];
+        if (cue.clasp !== false) {
+          sechzig.backing.setCueClasp(cue);
+        }
+        if (sechzig.cue.status(cue)) {
+          sechzig.cue.setActive(cue);
+          results.push(sechzig.cue.directActiveCues(cue));
+        } else {
+          results.push(sechzig.cue.setInactive(cue));
+        }
+      }
+      return results;
+    },
+    status: function(cue) {
+      return (sechzig.scroll.scrollTop >= cue.top && sechzig.scroll.scrollTop <= cue.bottom) || (sechzig.scroll.scrollBottom >= cue.top && sechzig.scroll.scrollBottom <= cue.bottom);
+    },
+    directActiveCues: function(cue) {
+      sechzig.cue.getCueProgress(cue);
+      return sechzig.blocking.getBlockingProgress(cue);
+    },
+    getCueProgress: function(cue) {
+      return cue.progress = (sechzig.scroll.scrollBottom - cue.top) / cue.duration;
+    },
+    setActive: function(cue) {
+      if (!cue.cueIsActive) {
+        cue.object.trigger('active');
+      }
+      return cue.cueIsActive = true;
+    },
+    setInactive: function(cue) {
+      if (cue.cueIsActive) {
+        cue.object.trigger('inactive');
+      }
+      return cue.cueIsActive = false;
+    }
+  };
+
+  $(function() {
+    return sechzig.cue.initialize();
+  });
+
   sechzig.easing = {
     linear: function(progress, startValue, valueChange, duration) {
       return valueChange * progress / duration + startValue;
@@ -383,10 +459,10 @@
   sechzig.keyframes = [
     movement = {
       cue: "stage",
-      character: ".thing",
+      character: ".stage-progress-bar",
       type: "scrub-css-animation",
-      startTime: 0.5,
-      finishTime: 0.75,
+      startTime: 0.1,
+      finishTime: 0.9,
       values: {
         transform: {
           translate: [
@@ -400,6 +476,101 @@
           ]
         }
       }
+    }, movement = {
+      cue: "scene-seven",
+      character: ".scene-progress-bar",
+      type: "scrub-css-animation",
+      startTime: 0,
+      finishTime: 1,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 100,
+              y: 0
+            }
+          ]
+        }
+      }
+    }, movement = {
+      cue: "scene-eight",
+      character: ".thing1",
+      type: "scrub-css-animation",
+      startTime: 0.2,
+      finishTime: 0.6,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: 100
+            }
+          ]
+        }
+      }
+    }, movement = {
+      cue: "scene-eight",
+      character: ".thing2",
+      type: "scrub-css-animation",
+      startTime: 0.3,
+      finishTime: 0.7,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: 100
+            }
+          ]
+        }
+      }
+    }, movement = {
+      cue: "scene-eight",
+      character: ".thing3",
+      type: "scrub-css-animation",
+      startTime: 0.4,
+      finishTime: 0.8,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: 100
+            }
+          ]
+        }
+      }
+    }, movement = {
+      cue: "scene-eight",
+      character: ".thing4",
+      type: "scrub-css-animation",
+      startTime: 0.5,
+      finishTime: 0.9,
+      values: {
+        transform: {
+          translate: [
+            {
+              x: 0,
+              y: 0
+            }, {
+              x: 0,
+              y: 100
+            }
+          ]
+        }
+      }
     }
   ];
 
@@ -409,10 +580,7 @@
         case "scrub-css-animation":
           return sechzig.animation.scrubCSS(movement);
         case "play-css-animation":
-          if (!movement.played) {
-            return sechzig.animation.playCSS(movement);
-          }
-          break;
+          return sechzig.animation.playCSS(movement);
         case "scrub-video":
           return sechzig.video.scrubVideo(movement);
         case "play-video":
@@ -505,8 +673,7 @@
 
   sechzig.stage = {
     initialize: function() {
-      this.arrangeCues();
-      return sechzig.raf.register(sechzig.stage.printProgress);
+      return this.arrangeCues();
     },
     arrangeCues: function() {
       this.cues = [];
@@ -527,9 +694,6 @@
         };
         return sechzig.stage.cues.push(cueHash);
       });
-    },
-    printProgress: function() {
-      return $('.thing h1').html(sechzig.stage.cues[0].progress);
     }
   };
 
@@ -560,55 +724,5 @@
       });
     }
   };
-
-  sechzig.cue = {
-    initialize: function() {
-      return sechzig.raf.register(sechzig.cue.monitorCues);
-    },
-    monitorCues: function() {
-      var cue, j, len, ref, results;
-      ref = sechzig.stage.cues;
-      results = [];
-      for (j = 0, len = ref.length; j < len; j++) {
-        cue = ref[j];
-        if (cue.clasp !== false) {
-          sechzig.backing.setCueClasp(cue);
-        }
-        if (sechzig.cue.status(cue)) {
-          sechzig.cue.setActive(cue);
-          results.push(sechzig.cue.directActiveCues(cue));
-        } else {
-          results.push(sechzig.cue.setInactive(cue));
-        }
-      }
-      return results;
-    },
-    status: function(cue) {
-      return (sechzig.scroll.scrollTop >= cue.top && sechzig.scroll.scrollTop <= cue.bottom) || (sechzig.scroll.scrollBottom >= cue.top && sechzig.scroll.scrollBottom <= cue.bottom);
-    },
-    directActiveCues: function(cue) {
-      sechzig.cue.getCueProgress(cue);
-      return sechzig.blocking.getBlockingProgress(cue);
-    },
-    getCueProgress: function(cue) {
-      return cue.progress = (sechzig.scroll.scrollBottom - cue.top) / cue.duration;
-    },
-    setActive: function(cue) {
-      if (!cue.cueIsActive) {
-        cue.object.trigger('active');
-      }
-      return cue.cueIsActive = true;
-    },
-    setInactive: function(cue) {
-      if (cue.cueIsActive) {
-        cue.object.trigger('inactive');
-      }
-      return cue.cueIsActive = false;
-    }
-  };
-
-  $(function() {
-    return sechzig.cue.initialize();
-  });
 
 }).call(this);
