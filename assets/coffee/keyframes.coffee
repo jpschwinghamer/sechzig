@@ -28,10 +28,10 @@ sechzig.keyframes = [
     character: ".thing1"
     type: "scrub-css-animation"
     startTime: 0.2
-    finishTime: 0.6
+    finishTime: 1
     values: {
       transform: {
-        translate: [{x: 0, y: 0}, {x: 0, y: 100}]
+        translate: [{x: 0, y: 0}, {x: 0, y: 50}]
       }
     }
 
@@ -40,10 +40,10 @@ sechzig.keyframes = [
     character: ".thing2"
     type: "scrub-css-animation"
     startTime: 0.3
-    finishTime: 0.7
+    finishTime: 1
     values: {
       transform: {
-        translate: [{x: 0, y: 0}, {x: 0, y: 100}]
+        translate: [{x: 0, y: 0}, {x: 0, y: 50}]
       }
     }
 
@@ -52,10 +52,10 @@ sechzig.keyframes = [
     character: ".thing3"
     type: "scrub-css-animation"
     startTime: 0.4
-    finishTime: 0.8
+    finishTime: 1
     values: {
       transform: {
-        translate: [{x: 0, y: 0}, {x: 0, y: 100}]
+        translate: [{x: 0, y: 0}, {x: 0, y: 50}]
       }
     }
 
@@ -64,10 +64,10 @@ sechzig.keyframes = [
     character: ".thing4"
     type: "scrub-css-animation"
     startTime: 0.5
-    finishTime: 0.9
+    finishTime: 1
     values: {
       transform: {
-        translate: [{x: 0, y: 0}, {x: 0, y: 100}]
+        translate: [{x: 0, y: 0}, {x: 0, y: 50}]
       }
     }
   # movement =
