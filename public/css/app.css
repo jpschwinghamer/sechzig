@@ -7649,3 +7649,12 @@ pre {
   min-height: 100vh;
   will-change: transform;
 }
+
+/* line 17, ../../assets/sass/app.sass */
+.thing {
+  position: fixed;
+  width: 100vw;
+  height: 1vh;
+  z-index: 1;
+  top: 0;
+}

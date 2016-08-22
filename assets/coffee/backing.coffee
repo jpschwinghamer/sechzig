@@ -1,15 +1,15 @@
 sechzig.backing =
-  setStickyScene: (scene) ->
-      @backing = scene.object.find('.backing')
-      switch scene.sticky
+  setCueClasp: (cue) ->
+      @backing = cue.object.find('.backing')
+      switch cue.clasp
         when "top"
-          if sechzig.scroll.scrollTop < scene.top
+          if sechzig.scroll.scrollTop < cue.top
             @backing.css
               position : 'relative'
               bottom : 0
               top : 0
           else
-            if sechzig.scroll.scrollBottom <= scene.bottom
+            if sechzig.scroll.scrollBottom <= cue.bottom
               @backing.css
                 position : 'fixed'
                 bottom : 'auto'
@@ -21,13 +21,13 @@ sechzig.backing =
                 top : 'auto'
 
         when "bottom"
-          if sechzig.scroll.scrollBottom < scene.top
+          if sechzig.scroll.scrollBottom < cue.top
             @backing.css
               position : 'relative'
               bottom : 0
               top : 0
           else
-            if sechzig.scroll.scrollBottom <= scene.bottom
+            if sechzig.scroll.scrollBottom <= cue.bottom
               @backing.css
                 position : 'fixed'
                 bottom : 'auto'
@@ -38,14 +38,14 @@ sechzig.backing =
                 bottom : 0
                 top : 'auto'
         when "bottom-hold"
-          if sechzig.scroll.scrollBottom < scene.top
+          if sechzig.scroll.scrollBottom < cue.top
             @backing.css
               position : 'relative'
               bottom : 0
               top : 0
               visibility: 'hidden'
           else
-            if sechzig.scroll.scrollTop >= scene.bottom
+            if sechzig.scroll.scrollTop >= cue.bottom
               @backing.css
                 position : 'absolute'
                 bottom : 0

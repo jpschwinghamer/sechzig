@@ -15,8 +15,8 @@ sechzig.scroll =
     sechzig.scroll.scrollTop = $(window).scrollTop()
     sechzig.scroll.scrollHeight = $(window).height()
     sechzig.scroll.scrollBottom = sechzig.scroll.scrollTop + sechzig.scroll.scrollHeight
-    sechzig.stage.arrangeScenes()
-    sechzig.scene.monitorScenes()
+    sechzig.stage.arrangeCues()
+    sechzig.cue.monitorCues()
 
 $ ->
   sechzig.scroll.initialize()

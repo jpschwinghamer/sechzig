@@ -1,28 +1,27 @@
 sechzig.stage =
   initialize: ->
-    @arrangeStage()
-    @arrangeScenes()
+    @arrangeCues()
+    sechzig.raf.register(sechzig.stage.printProgress)
 
-  arrangeStage: ->
-    sechzig.stage.duration = $('body').height()
-    sechzig.stage.progress = 0
-
-  arrangeScenes: ->
-    @scenes = []
-    $('.scene').each ->
+  arrangeCues: ->
+    @cues = []
+    $('.cue').each ->
       $this = $(this)
-      scenesHash =
+      cueHash =
         id: $this.attr('id')
         top: $this.offset().top
         bottom: $this.offset().top + $this.height()
         height: $this.height()
         object: $this
         duration: $this.height() + sechzig.scroll.scrollHeight
-        sceneIsActive: false
+        cueIsActive: false
         progress: 0
         blocking: sechzig.blocking.assignMovements(@id)
-        sticky: $this.data('sticky') || false
-      sechzig.stage.scenes.push(scenesHash)
+        clasp: $this.data('clasp') || false
+      sechzig.stage.cues.push(cueHash)
+
+  printProgress: ->
+    $('.thing h1').html(sechzig.stage.cues[0].progress)
 
 $ ->
   sechzig.stage.initialize()

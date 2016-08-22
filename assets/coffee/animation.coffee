@@ -2,7 +2,7 @@ window.sechzig ||= {}
 
 sechzig.animation =
   initialize: (movement) ->
-    character = $("##{movement.scene} #{movement.character}")
+    character = $("##{movement.cue} #{movement.character}")
     blur = ""
     opacity = ""
     translate = ""
@@ -36,7 +36,7 @@ sechzig.animation =
         transition: "none"
 
   scrubCSS: (movement) ->
-    character = $("##{movement.scene} #{movement.character}")
+    character = $("##{movement.cue} #{movement.character}")
     blur = ""
     opacity = ""
     translate = ""
@@ -63,7 +63,7 @@ sechzig.animation =
       transform: "#{scale} #{translate} #{rotate}"
 
   playCSS: (movement) ->
-    character = $("##{movement.scene} #{movement.character}")
+    character = $("##{movement.cue} #{movement.character}")
     blur = ""
     opacity = ""
     translate = ""

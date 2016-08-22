@@ -2,10 +2,10 @@ sechzig.blocking =
   initialize: ->
     @keyframes = sechzig.keyframes
 
-  assignMovements: (scene) ->
-    sceneMovements = []
+  assignMovements: (cue) ->
+    cueMovements = []
     for movement in sechzig.blocking.keyframes
-      if movement.scene == scene
+      if movement.cue == cue
         sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
         if (movement.type == "play-css-animation")
@@ -14,8 +14,8 @@ sechzig.blocking =
           sechzig.video.initialize(movement)
         if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
           sechzig.canvas.initialize(movement)
-        sceneMovements.push(movement)
-    sceneMovements
+        cueMovements.push(movement)
+    cueMovements
 
   setDefaultMovements: (movement) ->
     # Global
@@ -40,10 +40,10 @@ sechzig.blocking =
       unless movement.muted?
         movement.muted = false
 
-  getBlockingProgress: (scene) ->
-    for movement in scene.blocking
-      movement.startPixel = (movement.startTime * scene.duration) + scene.top
-      movement.finishPixel = (movement.finishTime * scene.duration) + scene.top
+  getBlockingProgress: (cue) ->
+    for movement in cue.blocking
+      movement.startPixel = (movement.startTime * cue.duration) + cue.top
+      movement.finishPixel = (movement.finishTime * cue.duration) + cue.top
       movement.pixelDistance = movement.finishPixel - movement.startPixel
       movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel
       if sechzig.blocking.status(movement)
@@ -53,7 +53,7 @@ sechzig.blocking =
         sechzig.blocking.setInactive(movement)
 
   setMovementObject: (movement) ->
-    movement.object = $("##{movement.scene + " " + movement.character}")
+    movement.object = $("##{movement.cue + " " + movement.character}")
 
   status: (movement) ->
     (sechzig.scroll.scrollBottom >= movement.startPixel) and (sechzig.scroll.scrollBottom <= movement.finishPixel)

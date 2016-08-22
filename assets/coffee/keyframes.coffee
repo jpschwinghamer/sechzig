@@ -1,27 +1,26 @@
 sechzig.keyframes = [
+  movement =
+    cue: "stage"
+    character: ".thing"
+    type: "scrub-css-animation"
+    startTime: 0.5
+    finishTime: 0.75
+    values: {
+      transform: {
+        translate: [{x: 0, y: 0}, {x: 100, y: 0}]
+      }
+    }
+
   # movement =
-  #   scene: "scene-one"
-  #   character: ".marker"
+  #   cue: "scene-one"
+  #   character: "h1"
   #   type: "scrub-css-animation"
-  #   startTime: 0.1
-  #   finishTime: 0.2
+  #   startTime: 0.5
+  #   finishTime: 1
   #   values: {
   #     opacity: [1,0]
   #     transform: {
-  #       translate: [{x: 0, y: 0}, {x: 0, y: -10}]
-  #     }
-  #   }
-
-  # movement =
-  #   scene: "scene-one"
-  #   character: ".marker2 h1"
-  #   type: "scrub-css-animation"
-  #   startTime: 0.2
-  #   finishTime: 0.3
-  #   values: {
-  #     opacity: [0,1]
-  #     transform: {
-  #       translate: [{x: 0, y: 10}, {x: 0, y: 0}]
+  #       translate: [{x: 0, y: 0}, {x: 0, y: -100}]
   #     }
   #   }
 
