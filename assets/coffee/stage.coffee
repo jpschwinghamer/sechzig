@@ -5,18 +5,18 @@ sechzig.stage =
   arrangeCues: ->
     @cues = []
     $('.cue').each ->
-      $this = $(this)
+      $el = $(this)
       cueHash =
-        id: $this.attr('id')
-        top: $this.offset().top
-        bottom: $this.offset().top + $this.height()
-        height: $this.height()
-        object: $this
-        duration: $this.height() + sechzig.scroll.scrollHeight
+        id: $el.attr('id')
+        top: $el.offset().top
+        bottom: $el.offset().top + $el.height()
+        height: $el.height()
+        object: $el
+        duration: $el.height() + sechzig.scroll.scrollHeight
         cueIsActive: false
         progress: 0
         blocking: sechzig.blocking.assignMovements(@id)
-        clasp: $this.data('clasp') || false
+        clasp: $el.data('clasp') || false
       sechzig.stage.cues.push(cueHash)
 
 $ ->
