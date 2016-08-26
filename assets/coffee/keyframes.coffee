@@ -70,6 +70,20 @@ sechzig.keyframes = [
         translate: [{x: 0, y: 0}, {x: 0, y: 50}]
       }
     }
+
+  movement =
+    cue: 'scene-nine'
+    character: '.thing'
+    type: 'play-css-animation'
+    startTime: 0.2
+    finishTime: 1
+    transition: 1
+    values: {
+      transform: {
+        scale: [1,0]
+      }
+    }
+
   # movement =
   #   scene: 'scene-one'
   #   character: 'canvas'
