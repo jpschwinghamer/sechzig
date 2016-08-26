@@ -34,10 +34,12 @@ sechzig.cue =
   setActive: (cue) ->
     cue.object.trigger('active') unless cue.cueIsActive
     cue.cueIsActive = true
+    cue.elapsed = false
 
   setInactive: (cue) ->
     cue.object.trigger('inactive') if cue.cueIsActive
     cue.cueIsActive = false
+    cue.elapsed = true if sechzig.scroll.scrollBottom > cue.bottom
 
 $ ->
   sechzig.cue.init()
