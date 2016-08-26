@@ -1,3 +1,5 @@
+window.sechzig ?= {}
+
 sechzig.movement =
   directMovement: (movement) ->
     switch movement.type

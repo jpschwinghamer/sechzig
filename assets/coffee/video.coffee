@@ -1,8 +1,11 @@
+window.sechzig ?= {}
+
 sechzig.video =
-  initialize: (movement) ->
+  init: (movement) ->
     movement.video = movement.object[0]
     movement.object.prop('loop', movement.loop)
     movement.object.prop('muted', movement.muted)
+    # TODO: this isn't okay... This needs to be a targetted element...
     $('video')[0].currentTime = 0 if movement.video.duration
 
   scrubVideo: (movement) ->

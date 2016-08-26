@@ -1,17 +1,14 @@
-sechzig.raf =
-  callbacks: []
-  initialize: ->
-    @rafLoop()
+window.sechzig ?= {}
 
-  rafLoop: ->
-    requestAnimationFrame(->
-      $.each sechzig.raf.callbacks, ->
-        @call()
-      sechzig.raf.rafLoop()
+sechzig.raf =
+  start: ->
+    @raf = requestAnimationFrame(=>
+      $(document).trigger 'sechzig-raf'
+      @start()
     )
 
-  register: (callback) ->
-    @callbacks.push callback
+  stop: ->
+    cancelAnimationFrame(@raf)
 
 $ ->
-  sechzig.raf.initialize()
+  sechzig.raf.start()

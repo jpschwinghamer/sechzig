@@ -1,3 +1,6 @@
+window.sechzig ?= {}
+
+# TODO: replace this with an open source easing library?
 sechzig.easing =
   linear: (progress,startValue,valueChange,duration) ->
     valueChange*progress/duration + startValue
