@@ -1,16 +1,15 @@
-sechzig.blocking =
-  initialize: ->
-    @keyframes = sechzig.keyframes
+window.sechzig ?= {}
 
+sechzig.blocking =
   assignMovements: (cue) ->
     cueMovements = []
-    for movement in sechzig.blocking.keyframes
+    for movement in sechzig.keyframes
       if movement.cue == cue
         sechzig.blocking.setDefaultMovements(movement)
         sechzig.blocking.setMovementObject(movement)
-        sechzig.animation.initialize(movement) if (movement.type == "play-css-animation")
-        sechzig.video.initialize(movement) if (movement.type == "play-video" or movement.type == "scrub-video")
-        sechzig.canvas.initialize(movement) if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
+        sechzig.animation.init(movement) if (movement.type == "play-css-animation")
+        sechzig.video.init(movement) if (movement.type == "play-video" or movement.type == "scrub-video")
+        sechzig.canvas.init(movement) if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
         cueMovements.push(movement)
     cueMovements
 
@@ -62,6 +61,3 @@ sechzig.blocking =
   setInactive: (movement) ->
     movement.object.trigger('inactive') if movement.movementIsActive
     movement.movementIsActive = false
-
-$ ->
-  sechzig.blocking.initialize()

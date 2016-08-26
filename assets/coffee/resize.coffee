@@ -1,18 +1,22 @@
+window.sechzig ?= {}
+
 sechzig.resize =
-  callbacks: []
-  initialize: ->
+  init: ->
     @enableBindings()
 
   enableBindings: ->
-    $(window).on 'resize', ->
-      sechzig.resize.recalcLayout()
+    $(window).on 'resize.sechzig', (e) =>
+      # debounce resize
+      clearTimeout(@delayResize) if @delayResize
+      @delayResize = setTimeout( =>
+        $(document).trigger
+          type: 'sechzig-resize'
+          width: $(window).width()
+          height: $(window).height()
+      , 100)
 
-  recalcLayout: ->
-    $.each @callbacks, ->
-      @call()
-
-  register: (callback) ->
-    @callbacks.push callback
+  disableBindings: ->
+    $(window).off 'resize.sechzig'
 
 $ ->
-  sechzig.resize.initialize()
+  sechzig.resize.init()

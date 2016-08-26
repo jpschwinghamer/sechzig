@@ -1,22 +1,31 @@
+window.sechzig ?= {}
+
 sechzig.cue =
-  initialize: ->
-    sechzig.raf.register(sechzig.cue.monitorCues)
+  init: ->
+    @enableBindings()
+
+  enableBindings: ->
+    $(document).on 'sechzig-raf', =>
+      @monitorCues()
+
+  disableBindings: ->
+    $(document).off 'sechzig-raf'
 
   monitorCues: ->
     for cue in sechzig.stage.cues
       sechzig.backing.setCueClasp(cue) unless cue.clasp == false
-      if sechzig.cue.status(cue)
-        sechzig.cue.setActive(cue)
-        sechzig.cue.directActiveCues(cue)
+      if @status(cue)
+        @setActive(cue)
+        @directActiveCues(cue)
       else
-        sechzig.cue.setInactive(cue)
+        @setInactive(cue)
 
   status: (cue) ->
     (sechzig.scroll.scrollTop >= cue.top and sechzig.scroll.scrollTop <= cue.bottom) or
     (sechzig.scroll.scrollBottom >= cue.top and sechzig.scroll.scrollBottom <= cue.bottom)
 
   directActiveCues: (cue) ->
-    sechzig.cue.getCueProgress(cue)
+    @getCueProgress(cue)
     sechzig.blocking.getBlockingProgress(cue)
 
   getCueProgress: (cue) ->
@@ -31,4 +40,4 @@ sechzig.cue =
     cue.cueIsActive = false
 
 $ ->
-  sechzig.cue.initialize()
+  sechzig.cue.init()

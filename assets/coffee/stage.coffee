@@ -1,5 +1,7 @@
+window.sechzig ?= {}
+
 sechzig.stage =
-  initialize: ->
+  init: ->
     @arrangeCues()
 
   arrangeCues: ->
@@ -20,4 +22,4 @@ sechzig.stage =
       sechzig.stage.cues.push(cueHash)
 
 $ ->
-  sechzig.stage.initialize()
+  sechzig.stage.init()

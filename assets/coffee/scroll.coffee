@@ -1,22 +1,32 @@
+window.sechzig ?= {}
+
 sechzig.scroll =
-  initialize: ->
-    @scrollTop = 0
+  init: ->
     @scrollHeight = $(window).height()
-    @scrollBottom = @scrollHeight
+    @scrollTop = $(window).scrollTop()
+    @scrollBottom = @scrollTop + @scrollHeight
     @enableBindings()
-    sechzig.resize.register(sechzig.scroll.updateScroll)
 
   enableBindings: ->
-    $(window).on 'scroll', ->
-      sechzig.scroll.scrollTop = $(window).scrollTop()
-      sechzig.scroll.scrollBottom = sechzig.scroll.scrollTop + sechzig.scroll.scrollHeight
+    $(window).on 'scroll.sechzig', =>
+      @scrollTop = $(window).scrollTop()
+      @scrollBottom = @scrollTop + @scrollHeight
 
-  updateScroll: ->
-    sechzig.scroll.scrollTop = $(window).scrollTop()
-    sechzig.scroll.scrollHeight = $(window).height()
-    sechzig.scroll.scrollBottom = sechzig.scroll.scrollTop + sechzig.scroll.scrollHeight
+    $(window).on 'sechzig-resize', (e) =>
+      @onResize()
+
+  disableBindings: ->
+    $(window).off 'scroll.sechzig'
+
+  onResize: ->
+    @updateValues()
     sechzig.stage.arrangeCues()
     sechzig.cue.monitorCues()
 
+  updateValues: ->
+    @scrollHeight = $(window).height()
+    @scrollTop = $(window).scrollTop()
+    @scrollBottom = @scrollTop + @scrollHeight
+
 $ ->
-  sechzig.scroll.initialize()
+  sechzig.scroll.init()
