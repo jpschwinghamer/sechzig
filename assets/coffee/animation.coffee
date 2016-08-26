@@ -1,9 +1,9 @@
-window.sechzig ||= {}
+window.sechzig ?= {}
 
 sechzig.animation =
 
   # play css initialize
-  initialize: (movement) ->
+  init: (movement) ->
     $character = $("##{movement.cue}").find("#{movement.character}")
 
     styles = {}

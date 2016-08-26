@@ -1,80 +1,83 @@
+window.sechzig ?= {}
+
 sechzig.backing =
   setCueClasp: (cue) ->
-      @backing = cue.object.find('.backing')
+
       switch cue.clasp
         when "top"
           if sechzig.scroll.scrollTop < cue.top
-            @backing.css
+            styles =
               position : 'relative'
               bottom : 0
               top : 0
+          else if sechzig.scroll.scrollBottom <= cue.bottom
+            styles =
+              position : 'fixed'
+              bottom : 'auto'
+              top : 0
           else
-            if sechzig.scroll.scrollBottom <= cue.bottom
-              @backing.css
-                position : 'fixed'
-                bottom : 'auto'
-                top : 0
-            else
-              @backing.css
-                position : 'absolute'
-                bottom : 0
-                top : 'auto'
+            styles =
+              position : 'absolute'
+              bottom : 0
+              top : 'auto'
+
         when "top-hold"
           if sechzig.scroll.scrollTop > cue.bottom
-            @backing.css
+            styles =
               position : 'relative'
               bottom : 0
               top : 'auto'
               visibility: 'hidden'
           # else
+          else if sechzig.scroll.scrollTop <= cue.top
+            styles =
+              position : 'absolute'
+              bottom : 'auto'
+              top : 0
+              visibility: 'visible'
           else
-            if sechzig.scroll.scrollTop <= cue.top
-              @backing.css
-                position : 'absolute'
-                bottom : 'auto'
-                top : 0
-                visibility: 'visible'
-            else
-              @backing.css
-                position : 'fixed'
-                bottom : 'auto'
-                top : 0
-                visibility: 'visible'
+            styles =
+              position : 'fixed'
+              bottom : 'auto'
+              top : 0
+              visibility: 'visible'
 
         when "bottom"
           if sechzig.scroll.scrollBottom < cue.top
-            @backing.css
+            styles =
               position : 'relative'
               bottom : 0
               top : 0
+          else if sechzig.scroll.scrollBottom <= cue.bottom
+            styles =
+              position : 'fixed'
+              bottom : 'auto'
+              top : 0
           else
-            if sechzig.scroll.scrollBottom <= cue.bottom
-              @backing.css
-                position : 'fixed'
-                bottom : 'auto'
-                top : 0
-            else
-              @backing.css
-                position : 'absolute'
-                bottom : 0
-                top : 'auto'
+            styles =
+              position : 'absolute'
+              bottom : 0
+              top : 'auto'
+
         when "bottom-hold"
           if sechzig.scroll.scrollBottom < cue.top
-            @backing.css
+            styles =
               position : 'relative'
               bottom : 0
               top : 0
               visibility: 'hidden'
+          else if sechzig.scroll.scrollTop >= cue.bottom
+            styles =
+              position : 'absolute'
+              bottom : 0
+              top : 'auto'
+              visibility: 'hidden'
           else
-            if sechzig.scroll.scrollTop >= cue.bottom
-              @backing.css
-                position : 'absolute'
-                bottom : 0
-                top : 'auto'
-                visibility: 'hidden'
-            else
-              @backing.css
-                position : 'fixed'
-                bottom : 'auto'
-                top : 0
-                visibility: 'visible'
+            styles =
+              position : 'fixed'
+              bottom : 'auto'
+              top : 0
+              visibility: 'visible'
+
+      # apply styles
+      cue.object.find('.backing').css styles

@@ -1,5 +1,7 @@
+window.sechzig ?= {}
+
 sechzig.canvas =
-  initialize: (movement) ->
+  init: (movement) ->
     movement.canvas = movement.object[0]
     movement.context = movement.canvas.getContext('2d')
     movement.images = []
