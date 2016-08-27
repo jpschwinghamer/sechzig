@@ -7,16 +7,16 @@ sechzig.easing =
 
   quadInOut: (progress, startValue, valueChange, duration) ->
     if (progress = progress/(duration/2)) < 1
-      return valueChange/2 * progress*progress + startValue
+      valueChange/2 * progress*progress + startValue
     else
-      return -valueChange/2 * ((progress -= 1)*(progress-2)-1) + startValue
+      -valueChange/2 * ((progress -= 1)*(progress-2)-1) + startValue
 
   expoInOut: (progress,startValue,valueChange,duration) ->
     if progress == 0
-      return startValue
+      startValue
     else if progress == duration
-      return startValue+valueChange
+      startValue+valueChange
     else if (progress = progress/(duration/2)) < 1
-      return valueChange/2 * Math.pow(2,10*(progress-1)) + startValue
+      valueChange/2 * Math.pow(2,10*(progress-1)) + startValue
     else
       valueChange/2*(-Math.pow(2,-10*(progress-1))+2)+startValue;

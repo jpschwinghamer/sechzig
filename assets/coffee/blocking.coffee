@@ -14,27 +14,17 @@ sechzig.blocking =
     cueMovements
 
   setDefaultMovements: (movement) ->
-    # Global
-    unless movement.movementIsActive?
-      movement.movementIsActive = false
-    unless movement.type?
-      movement.type = "scrub-css-animation"
-    unless movement.startTime?
-      movement.startTime = 0
-    unless movement.finishTime?
-      movement.finishTime = 1
-    unless movement.loop?
-      movement.loop = false
+    movement.movementIsActive ?= false
+    movement.type ?= "scrub-css-animation"
+    movement.startTime ?= 0
+    movement.finishTime ?= 1
+    movement.loop ?= false
 
     # Canvas defaults
-    if movement.type == "draw-canvas"
-      unless movement.canvasReady?
-        movement.canvasReady = false
+    movement.canvasReady ?= false if movement.type == "draw-canvas"
 
     # Video defaults
-    if movement.type == "play-video"
-      unless movement.muted?
-        movement.muted = false
+    movement.muted ?= false if movement.type == "play-video"
 
   getBlockingProgress: (cue) ->
     for movement in cue.blocking
