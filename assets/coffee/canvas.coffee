@@ -38,7 +38,7 @@ sechzig.canvas =
 
   scrubCanvas: (movement) ->
     frame =
-      Math.max( Math.min( Math.floor(sechzig.easing.expoInOut(movement.pixelProgress, 0, movement.imageCount, movement.pixelDistance)),movement.imageCount), 0)
+      Math.max( Math.min( Math.floor(sechzig.easing.expoInOut(movement.progress, 0, movement.imageCount, movement.duration)),movement.imageCount), 0)
     movement.context.drawImage(movement.images[frame],0,0, movement.imageWidth, movement.imageHeight)
 
   drawCanvas: (movement) ->

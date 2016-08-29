@@ -5,49 +5,33 @@ sechzig.blocking =
     cueMovements = []
     for movement in sechzig.keyframes
       if movement.cue == cue
-        sechzig.blocking.setDefaultMovements(movement)
-        sechzig.blocking.setMovementObject(movement)
-        sechzig.animation.init(movement) if (movement.type == "play-css-animation")
-        sechzig.video.init(movement) if (movement.type == "play-video" or movement.type == "scrub-video")
-        sechzig.canvas.init(movement) if (movement.type == "scrub-canvas" or movement.type == "draw-canvas")
         cueMovements.push(movement)
     cueMovements
 
-  setDefaultMovements: (movement) ->
-    movement.movementIsActive ?= false
-    movement.type ?= "scrub-css-animation"
-    movement.startTime ?= 0
-    movement.finishTime ?= 1
-    movement.loop ?= false
+  init: ->
+    for cue in sechzig.stage.cues
+      for movement in cue.blocking
+        movement.top = (movement.start * cue.duration) + cue.top
+        movement.bottom = (movement.finish * cue.duration) + cue.top
+        movement.duration = movement.bottom - movement.top
 
-    # Canvas defaults
-    movement.canvasReady ?= false if movement.type == "draw-canvas"
-
-    # Video defaults
-    movement.muted ?= false if movement.type == "play-video"
-
-  getBlockingProgress: (cue) ->
+  monitorMovements: (cue) ->
     for movement in cue.blocking
-      movement.startPixel = (movement.startTime * cue.duration) + cue.top
-      movement.finishPixel = (movement.finishTime * cue.duration) + cue.top
-      movement.pixelDistance = movement.finishPixel - movement.startPixel
-      movement.pixelProgress = sechzig.scroll.scrollBottom - movement.startPixel
-      if sechzig.blocking.status(movement)
-        sechzig.movement.directMovement(movement)
-        sechzig.blocking.setActive(movement)
-      else
-        sechzig.blocking.setInactive(movement)
+      if @active(movement) then movement.active = true else movement.active = false
+      @directMovement(movement, cue)
 
-  setMovementObject: (movement) ->
-    movement.object = $("##{movement.cue + " " + movement.character}")
+  active: (movement) ->
+    movement.top < sechzig.scroll.scrollBottom && movement.bottom > sechzig.scroll.scrollBottom
 
-  status: (movement) ->
-    (sechzig.scroll.scrollBottom >= movement.startPixel) and (sechzig.scroll.scrollBottom <= movement.finishPixel)
+  elapsed: (movement) ->
+    movement.bottom < sechzig.scroll.scrollTop
 
-  setActive: (movement) ->
-    movement.object.trigger('active') unless movement.movementIsActive
-    movement.movementIsActive = true
+  progress: (movement) ->
+    sechzig.scroll.scrollBottom - movement.top
 
-  setInactive: (movement) ->
-    movement.object.trigger('inactive') if movement.movementIsActive
-    movement.movementIsActive = false
+  directMovement: (movement, cue) ->
+    if cue.active && !cue.ready
+      sechzig.movement.init(movement, cue)
+    if movement.active
+      sechzig.movement.router(movement, cue)
+      movement.progress = @progress(movement)
