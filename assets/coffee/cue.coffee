@@ -14,30 +14,24 @@ sechzig.cue =
   monitorCues: ->
     for cue in sechzig.stage.cues
       sechzig.backing.setCueClasp(cue) unless cue.clasp == false
-      if @status(cue)
-        @setActive(cue)
-        @directActiveCues(cue)
-      else
-        @setInactive(cue)
+      if @active(cue) then cue.active = true else cue.active = false
+      @directCue(cue)
 
-  status: (cue) ->
-    (sechzig.scroll.scrollTop >= cue.top and sechzig.scroll.scrollTop <= cue.bottom) or
-    (sechzig.scroll.scrollBottom >= cue.top and sechzig.scroll.scrollBottom <= cue.bottom)
+  active: (cue) ->
+    cue.top <= sechzig.scroll.scrollBottom && cue.bottom >= sechzig.scroll.scrollTop
 
-  directActiveCues: (cue) ->
-    @getCueProgress(cue)
-    sechzig.blocking.getBlockingProgress(cue)
+  elapsed: (cue) ->
+    cue.bottom < sechzig.scroll.scrollTop
 
-  getCueProgress: (cue) ->
-    cue.progress = (sechzig.scroll.scrollBottom - cue.top)/cue.duration
+  progress: (cue) ->
+    (sechzig.scroll.scrollBottom - cue.top)/cue.duration
 
-  setActive: (cue) ->
-    cue.object.trigger('active') unless cue.cueIsActive
-    cue.cueIsActive = true
+  directCue: (cue) ->
+    sechzig.blocking.monitorMovements(cue)
+    cue.elapsed = @elapsed(cue)
+    if cue.active
+      cue.progress = @progress(cue)
+    else
+      cue.inverted = if cue.elapsed then true else false
+      cue.ready = false
 
-  setInactive: (cue) ->
-    cue.object.trigger('inactive') if cue.cueIsActive
-    cue.cueIsActive = false
-
-$ ->
-  sechzig.cue.init()

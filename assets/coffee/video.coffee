@@ -10,7 +10,7 @@ sechzig.video =
 
   scrubVideo: (movement) ->
     if movement.video.duration
-      movement.video.currentTime = sechzig.easing.quadInOut(movement.pixelProgress, 0, movement.video.duration, movement.pixelDistance)
+      movement.video.currentTime = sechzig.easing.quadInOut(movement.progress, 0, movement.video.duration, movement.duration)
 
   playVideo: (movement) ->
     if movement.video.networkState == 1 && movement.video.duration

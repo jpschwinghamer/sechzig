@@ -15,11 +15,15 @@ sechzig.stage =
         height: $el.height()
         object: $el
         duration: $el.height() + sechzig.scroll.scrollHeight
-        cueIsActive: false
         progress: 0
         blocking: sechzig.blocking.assignMovements(@id)
         clasp: $el.data('clasp') || false
+        inverted: false
+        ready: false
       sechzig.stage.cues.push(cueHash)
+
+    sechzig.cue.init()
+    sechzig.blocking.init()
 
 $ ->
   sechzig.stage.init()
