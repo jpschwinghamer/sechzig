@@ -1,5 +1,3 @@
-.stage-progress-bar.gray-bg
-
 section#scene-one.scene.scene-one.cue.single
   .backing
     .marker.content
@@ -30,17 +28,30 @@ section#scene-seven.scene.scene-seven.cue.charcoal-muted-bg.double data-clasp="t
     .marker
       .content.gap-bottom-small
         h1 5. Scrub CSS Animation
-      .scene-progress-bar.white-bg
+      .scene-progress-bar.white-bg(
+        data-character
+        data-keyframe-type = "scrub-css"
+        data-keyframe-start = "0"
+        data-keyframe-finish = "1"
+        data-keyframe-translate = '{"x" : [0,100], "y" : [0,0]}'
+      )
 
-section#scene-eight.scene.scene-eight.cue.quadruple data-clasp="top-hold"
+section#scene-eight.scene.scene-eight.cue.quadruple data-clasp="bottom-hold"
   .backing
     .marker
       .content.gap-bottom-small
         h1 6. Scrub CSS Animation
       .grid-4
         .column
-          .thing.charcoal-muted-bg.pad-vert-medium.thing1
-        .column
+          .thing.charcoal-muted-bg.pad-vert-medium.thing1(
+            data-character
+            data-keyframe-type = "scrub-css"
+            data-keyframe-start = "0.2"
+            data-keyframe-finish = "0.4"
+            data-keyframe-translate = '{"x" : [100,0], "y" : [0,0]}'
+            data-keyframe-duration = 0.25
+          )
+        .column.column
           .thing.charcoal-muted-bg.pad-vert-medium.thing2
         .column
           .thing.charcoal-muted-bg.pad-vert-medium.thing3
@@ -61,5 +72,3 @@ section#scene-nine.scene.scene-nine.cue.double.charcoal-muted-bg data-clasp="bot
           .thing.gray-bg.pad-vert-medium.thing3
         .column
           .thing.gray-bg.pad-vert-medium.thing4
-
-section.cue.double

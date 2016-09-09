@@ -20,7 +20,7 @@ sechzig.scroll =
 
   onResize: ->
     @updateValues()
-    sechzig.stage.arrangeCues()
+    sechzig.stage.init()
     sechzig.cue.monitorCues()
 
   updateValues: ->

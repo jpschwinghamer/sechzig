@@ -1,37 +1,23 @@
 window.sechzig ?= {}
 
 sechzig.blocking =
-  assignMovements: (cue) ->
-    cueMovements = []
-    for movement in sechzig.keyframes
-      if movement.cue == cue
-        cueMovements.push(movement)
-    cueMovements
+  monitorMovements: ($cue) ->
+    $cue.find('[data-character]').each ->
+      $movement = $(this)
+      if sechzig.blocking.active($movement)
+        $movement.trigger('active') unless $movement.data('active')
+        $movement.data('active', true)
+        $movement.data('progress', sechzig.blocking.progress($movement))
+        sechzig.movement.route($movement)
+      else
+        $movement.trigger('inactive') if $movement.data('active')
+        $movement.data('active', false)
 
-  init: ->
-    for cue in sechzig.stage.cues
-      for movement in cue.blocking
-        movement.top = (movement.start * cue.duration) + cue.top
-        movement.bottom = (movement.finish * cue.duration) + cue.top
-        movement.duration = movement.bottom - movement.top
+  active: ($movement) ->
+    $movement.data('top') < sechzig.scroll.scrollBottom && $movement.data('bottom') > sechzig.scroll.scrollBottom
 
-  monitorMovements: (cue) ->
-    for movement in cue.blocking
-      if @active(movement) then movement.active = true else movement.active = false
-      @directMovement(movement, cue)
+  elapsed: ($movement) ->
+    $movement.data('bottom') < sechzig.scroll.scrollBottom
 
-  active: (movement) ->
-    movement.top < sechzig.scroll.scrollBottom && movement.bottom > sechzig.scroll.scrollBottom
-
-  elapsed: (movement) ->
-    movement.bottom < sechzig.scroll.scrollTop
-
-  progress: (movement) ->
-    sechzig.scroll.scrollBottom - movement.top
-
-  directMovement: (movement, cue) ->
-    if cue.active && !cue.ready
-      sechzig.movement.init(movement, cue)
-    if movement.active
-      sechzig.movement.router(movement, cue)
-      movement.progress = @progress(movement)
+  progress: ($movement) ->
+    sechzig.scroll.scrollBottom - $movement.data('top')
