@@ -14,8 +14,8 @@ sechzig.cue =
   monitorCues: ->
     $('.cue').each ->
       $cue = $(this)
-      sechzig.blocking.monitorMovements($cue)
       if sechzig.cue.active($cue)
+        sechzig.blocking.monitorMovements($cue)
         sechzig.backing.set($cue) if $cue.data('clasp')
         $cue.trigger('active') unless $cue.data('active')
         $cue.data('active', true)
