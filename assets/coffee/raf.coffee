@@ -3,12 +3,10 @@ window.sechzig ?= {}
 sechzig.raf =
   start: ->
     @raf = requestAnimationFrame(=>
-      $(document).trigger 'sechzig-raf'
+      sechzig.cue.monitor()
+      sechzig.blocking.monitor()
       @start()
     )
 
   stop: ->
     cancelAnimationFrame(@raf)
-
-$ ->
-  sechzig.raf.start()

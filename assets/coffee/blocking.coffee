@@ -1,23 +1,27 @@
 window.sechzig ?= {}
 
 sechzig.blocking =
-  monitorMovements: ($cue) ->
-    $cue.find('[data-character]').each ->
+  monitor: ->
+    $('[data-character]').each ->
       $movement = $(this)
-      if sechzig.blocking.active($movement)
-        $movement.trigger('active') unless $movement.data('active')
-        $movement.data('active', true)
-        $movement.data('progress', sechzig.blocking.progress($movement))
-        sechzig.movement.route($movement)
-      else
-        $movement.trigger('inactive') if $movement.data('active')
-        $movement.data('active', false)
+      $keyframes = $movement.data('keyframe-start')
+      $.each $keyframes, (i) ->
+        if sechzig.blocking.active($movement, i) then sechzig.blocking.activate($movement, i) else sechzig.blocking.deactivate($movement, i)
 
-  active: ($movement) ->
-    $movement.data('top') < sechzig.scroll.scrollBottom && $movement.data('bottom') > sechzig.scroll.scrollBottom
+  active: ($movement, i) ->
+    $movement.data('top')[i] < sechzig.scroll.scrollBottom && $movement.data('bottom')[i] > sechzig.scroll.scrollBottom
 
-  elapsed: ($movement) ->
-    $movement.data('bottom') < sechzig.scroll.scrollBottom
+  activate: ($movement, i) ->
+    sechzig.movement.scrub($movement, i, sechzig.blocking.progress($movement, i)) if $movement.data('keyframe-type').startsWith('scrub')
+    $movement.trigger('active', i) unless $movement.data('active')[i]
 
-  progress: ($movement) ->
-    sechzig.scroll.scrollBottom - $movement.data('top')
+  deactivate: ($movement, i) ->
+    if $movement.data('active')[i] || !$movement.data('active')[i]?
+      $movement.trigger('resolve', [i, if sechzig.blocking.elapsed($movement, i) then 'reverse' else 'normal'])
+      $movement.trigger('inactive', i)
+
+  elapsed: ($movement, i) ->
+    sechzig.scroll.scrollBottom >= $movement.data('bottom')[i]
+
+  progress: ($movement, i) ->
+    sechzig.scroll.scrollBottom - $movement.data('top')[i]

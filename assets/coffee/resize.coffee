@@ -5,18 +5,9 @@ sechzig.resize =
     @enableBindings()
 
   enableBindings: ->
-    $(window).on 'resize.sechzig', (e) =>
-      # debounce resize
-      clearTimeout(@delayResize) if @delayResize
-      @delayResize = setTimeout( =>
-        $(document).trigger
-          type: 'sechzig-resize'
-          width: $(window).width()
-          height: $(window).height()
-      , 100)
-
-  disableBindings: ->
-    $(window).off 'resize.sechzig'
-
+    $(window).on 'resize', (e) =>
+      sechzig.scroll.update()
+      sechzig.raf.stop()
+      sechzig.stage.init()
 $ ->
   sechzig.resize.init()

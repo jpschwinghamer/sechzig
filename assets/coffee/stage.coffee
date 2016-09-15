@@ -3,40 +3,50 @@ window.sechzig ?= {}
 sechzig.stage =
   init: ->
     @setup()
-    sechzig.cue.init()
+    sechzig.raf.start()
 
   setup: ->
-    $('.cue').each ->
-      # Init cues
-      $cue = $(this)
+    $('[data-character]').each ->
+      $movement = $(this)
+      $cue = $movement.closest('.cue')
+
       $cue.data('top', $cue.offset().top)
       $cue.data('bottom', $cue.offset().top + $cue.height())
       $cue.data('duration', $cue.height() + sechzig.scroll.scrollHeight)
 
-      # Setup cue event listeners
-      $cue.on 'active', (e) ->
-        e.stopPropagation()
-      $cue.on 'inactive', (e) ->
-        e.stopPropagation()
+      $movement.data('top', [])
+      $movement.data('bottom', [])
+      $movement.data('duration', [])
+      $movement.data('active', [])
+      $movement.data('elapsed', [])
+      $movement.data('unresolved', [])
 
-      # Init movements
-      $cue.find('[data-character]').each ->
-        $movement = $(this)
-        $movement.data('top', $movement.data('keyframe-start') * $cue.data('duration') + $cue.data('top'))
-        $movement.data('bottom', $movement.data('keyframe-finish') * $cue.data('duration') + $cue.data('top'))
-        $movement.data('duration', $movement.data('bottom') - $movement.data('top'))
-        $movement.data('progress', 0)
-        $movement.data('elapsed', false)
-        $movement.data('inverted', false)
-        sechzig.movement.route($movement)
+      $keyframes = $movement.data('keyframe-start')
+      $.each $keyframes, (i) ->
+        $movement.data('top').push($movement.data("keyframe-start")[i] * $cue.data('duration') + $cue.data('top') )
+        $movement.data('bottom').push($movement.data('keyframe-finish')[i] * $cue.data('duration') + $cue.data('top') )
+        $movement.data('duration').push($movement.data('bottom')[i] - $movement.data('top')[i] )
+        $movement.data('elapsed').push(sechzig.blocking.elapsed($movement, i) )
+        $movement.data('unresolved').push(false)
 
-        # Setup movement event listeners
-        $movement.on 'active', (e) ->
-          e.stopPropagation()
-        $movement.on 'inactive', (e) ->
-          e.stopPropagation()
-          $movement.data('elapsed', sechzig.blocking.elapsed($movement))
-          sechzig.movement.reset($movement)
+      sechzig.movement.set($movement)
+
+      $movement.on 'active',  (e, i) ->
+        e.stopPropagation()
+        $movement.data('active')[i] = true
+        if $movement.data('keyframe-type').startsWith('play')
+          sechzig.movement.play($movement, i)
+
+      $movement.on 'inactive', (e, i) ->
+        e.stopPropagation()
+        $movement.data('active')[i] = false
+        $movement.data('elapsed')[i] = sechzig.blocking.elapsed($movement, i)
+        sechzig.movement.reset($movement, i)
+
+      $movement.on 'resolve', (e, i, direction) ->
+        e.stopPropagation()
+        if $movement.data('unresolved')[i] == direction
+          if direction == "normal" then sechzig.movement.play($movement, i, 'reverse') else sechzig.movement.play($movement, i, 'normal')
 
 $ ->
   sechzig.stage.init()

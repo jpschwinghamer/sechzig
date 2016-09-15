@@ -1,27 +1,10 @@
 window.sechzig ?= {}
 
 sechzig.cue =
-  init: ->
-    @enableBindings()
+  active: ($cue) ->
+    $cue.data('top') < sechzig.scroll.scrollBottom && $cue.data('bottom') > sechzig.scroll.scrollTop
 
-  enableBindings: ->
-    $(document).on 'sechzig-raf', =>
-      @monitorCues()
-
-  disableBindings: ->
-    $(document).off 'sechzig-raf'
-
-  monitorCues: ->
+  monitor: ->
     $('.cue').each ->
       $cue = $(this)
-      sechzig.blocking.monitorMovements($cue)
-      if sechzig.cue.active($cue)
-        sechzig.backing.set($cue) if $cue.data('clasp')
-        $cue.trigger('active') unless $cue.data('active')
-        $cue.data('active', true)
-      else
-        $cue.trigger('inactive') if $cue.data('active')
-        $cue.data('active', false)
-
-  active: ($cue) ->
-    $cue.data('top') <= sechzig.scroll.scrollBottom && $cue.data('bottom') >= sechzig.scroll.scrollTop
+      sechzig.backing.set($cue) if sechzig.cue.active($cue) && $cue.data('clasp')?

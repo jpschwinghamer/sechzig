@@ -1,74 +1,79 @@
-section#scene-one.scene.scene-one.cue.single
+section#scene-intro.scene-intro.scene.cue.single data-clasp="bottom-hold"
   .backing
     .marker.content
-      h1 Sechzig
-
-section#scene-two.scene.scene-two.cue.charcoal-muted-bg.double data-clasp="top"
-  .backing.inverted
-    .marker.content
-      h1 1. Clasped Backing Top
-
-section#scene-three.scene.scene-three.cue.double data-clasp="top-hold"
-  .backing
-    .marker.content
-      h1 2. Clasped Backing Top & Hold
-
-section#scene-four.scene.scene-four.cue.charcoal-muted-bg.double data-clasp="bottom"
-  .backing.inverted
-    .marker.content
-      h1 3. Clasped Backing Bottom
-
-section#scene-five.scene.scene-five.cue.double data-clasp="bottom-hold"
-  .backing
-    .marker.content
-      h1 4. Clasped Backing Bottom & Hold
-
-section#scene-seven.scene.scene-seven.cue.charcoal-muted-bg.double data-clasp="top-hold"
-  .backing.inverted
-    .marker
-      .content.gap-bottom-small
-        h1 5. Scrub CSS Animation
-      .scene-progress-bar.white-bg(
+      h1(
+        id = "intro h1"
         data-character
         data-keyframe-type = "scrub-css"
-        data-keyframe-start = "0"
-        data-keyframe-finish = "1"
-        data-keyframe-translate = '{"x" : [0,100], "y" : [0,0]}'
-      )
+        data-keyframe-start = "[0.5]"
+        data-keyframe-finish = "[1]"
+        data-keyframe-opacity = "[ [1,-0.3] ]"
+        data-keyframe-translate = '[ {"x" : [0, 0], "y" : [0, -50]} ]'
+        ) Sechzig
 
-section#scene-eight.scene.scene-eight.cue.quadruple data-clasp="bottom-hold"
-  .backing
-    .marker
-      .content.gap-bottom-small
-        h1 6. Scrub CSS Animation
-      .grid-4
-        .column
-          .thing.charcoal-muted-bg.pad-vert-medium.thing1(
-            data-character
-            data-keyframe-type = "scrub-css"
-            data-keyframe-start = "0.2"
-            data-keyframe-finish = "0.4"
-            data-keyframe-translate = '{"x" : [100,0], "y" : [0,0]}'
-            data-keyframe-duration = 0.25
-          )
-        .column.column
-          .thing.charcoal-muted-bg.pad-vert-medium.thing2
-        .column
-          .thing.charcoal-muted-bg.pad-vert-medium.thing3
-        .column
-          .thing.charcoal-muted-bg.pad-vert-medium.thing4
-
-section#scene-nine.scene.scene-nine.cue.double.charcoal-muted-bg data-clasp="bottom-hold"
+section#scene-one.scene-one.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
   .backing.inverted
-    .marker
-      .content.gap-bottom-small
-        h1 7. Play CSS Animation
+    .marker.content
+      h1(
+      id = "scene-one-h1"
+      data-character
+      data-keyframe-type = "scrub-css"
+      data-keyframe-start = "[0, 0.3]"
+      data-keyframe-finish = "[0.2, 0.5]"
+      data-keyframe-opacity = "[ [-0.3, 1], [1, -0.3] ]"
+      data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
+      ) Scrub CSS Animation
+    .marker.content
       .grid-4
-        .column
-          .thing.gray-bg.pad-vert-medium.thing1
-        .column
-          .thing.gray-bg.pad-vert-medium.thing2
-        .column
-          .thing.gray-bg.pad-vert-medium.thing3
-        .column
-          .thing.gray-bg.pad-vert-medium.thing4
+        - for i in (1..16)
+          .column
+            .white-bg.pad-medium(
+              id = "rhombus-#{i}"
+              data-character = "rhombus"
+              data-keyframe-type = "scrub-css"
+              data-keyframe-start = "[#{0.01 * i + 0.35}, #{0.02 * i + 0.6}]"
+              data-keyframe-finish = "[0.6, 1]"
+              data-keyframe-opacity = "[ [0,1.2], [1.2,0]]"
+              data-keyframe-scale = "[ [1,1], [1,0]]"
+              )
+
+section#scene-three.scene-three.scene
+  .marker.content
+    .grid-2-at-medium.grid-col-space-none
+      .column
+        .charcoal-bg.aspect-ratio-square.inverted.display-flex.flex-valign-center.align-center
+          h1 1
+      .column
+        .accent-gray-bg.aspect-ratio-square.display-flex.flex-valign-center
+          .pad-medium
+            h3 Testing
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed incididunt do eiusmod. Tempor incididunt ut labore et dolore magna aliqua.
+            p Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+section#scene-four.scene-four.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
+  .backing.inverted
+    .marker.content
+      h1(
+      id = "scene-four-h1"
+      data-character
+      data-keyframe-type = "scrub-css"
+      data-keyframe-start = "[0, 0.2]"
+      data-keyframe-finish = "[0.1, 0.3]"
+      data-keyframe-opacity = "[ [-0.3, 1], [1, -0.3] ]"
+      data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
+      ) Play CSS Animation
+    .marker.content
+      .column
+        .white-bg.aspect-ratio-rect(
+          id = "timeline-rhombus"
+          data-character = 'rhombus'
+          data-keyframe-duration = "250"
+          data-keyframe-type = "play-css"
+          data-keyframe-start = "[0.3, 0.8]"
+          data-keyframe-finish = "[0.5, 1]"
+          data-keyframe-opacity = "[ [0,1.2], [1.2,0]]"
+          data-keyframe-scale = "[ [1,1], [1,0]]"
+          data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
+          )
+
+section.scene.double

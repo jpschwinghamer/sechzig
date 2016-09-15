@@ -8,22 +8,14 @@ sechzig.scroll =
     @enableBindings()
 
   enableBindings: ->
-    $(window).on 'scroll.sechzig', =>
+    $(window).on 'scroll', =>
       @scrollTop = $(window).scrollTop()
       @scrollBottom = @scrollTop + @scrollHeight
 
-    $(window).on 'sechzig-resize', (e) =>
-      @onResize()
+    $(window).on 'resize', =>
+      @update()
 
-  disableBindings: ->
-    $(window).off 'scroll.sechzig'
-
-  onResize: ->
-    @updateValues()
-    sechzig.stage.init()
-    sechzig.cue.monitorCues()
-
-  updateValues: ->
+  update: ->
     @scrollHeight = $(window).height()
     @scrollTop = $(window).scrollTop()
     @scrollBottom = @scrollTop + @scrollHeight

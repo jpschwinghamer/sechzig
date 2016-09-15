@@ -18,7 +18,7 @@ body
 
 .stage-progress-bar
   width: 100vw
-  height: 1vh
+  height: 2vh
   position: fixed
   top: 0
   left: 0
@@ -27,13 +27,34 @@ body
 .double
   height: 200vh
 
+.triple
+  height: 300vh
+
 .quadruple
   height: 400vh
+
+.quintuple
+  height: 500vh
+
+.decuple
+  height: 1000vh
+
+.nonuple
+  height: 900vh
 
 .scene-progress-bar
   width: 100vw
   height: 1vh
   z-index: 2
 
-.thing
-  height: 50vh
+[data-character='rhombus']
+  -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)
+
+[data-character='triangle']
+  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%)
+
+[data-character='hexagon']
+  -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)
+
+.fifth
+  width: 20%
