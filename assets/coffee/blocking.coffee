@@ -1,27 +1,35 @@
-window.sechzig ?= {}
+# window.sechzig ?= {}
 
-sechzig.blocking =
-  monitorMovements: ($cue) ->
-    $cue.find('[data-character]').each ->
-      $movement = $(this)
-      $keyframes = $movement.data('keyframe-start')
-      progress = $movement.data('progress')
-      $.each $keyframes, (i) ->
-        if sechzig.blocking.active($movement, i)
-          $movement.trigger('active') unless $movement.data('active')
-          progress[i] = sechzig.blocking.progress($movement, i)
-          $movement.data('progress', progress)
-          $movement.data('active', true)
-          sechzig.movement.route($movement, i)
-        else
-          $movement.trigger('inactive') if $movement.data('active')
-          $movement.data('active', false)
+# sechzig.blocking =
+#   monitor: ($cue) ->
+#     $cue.find('[data-character]').each ->
+#       $movement = $(this)
+#       $keyframes = $movement.data('keyframe-start')
+#       progress = $movement.data('progress')
+#       active = $movement.data('active')
+#       completed = $movement.data('completed')
+#       $.each $keyframes, (index) ->
+#         active[index] = sechzig.blocking.active($movement, index)
+#         completed[index] = sechzig.blocking.completed($movement, index)
+#         if sechzig.blocking.active($movement, index)
+#           progress[index] = sechzig.blocking.progress($movement, index)
+#           $movement.data('progress', progress)
+#           sechzig.movement.route($movement, $cue, index)
 
-  active: ($movement, i) ->
-    $movement.data('top')[i] < sechzig.scroll.scrollBottom && $movement.data('bottom')[i] > sechzig.scroll.scrollBottom
+#   active: ($movement, index) ->
+#     $movement.data('top')[index] < sechzig.scroll.scrollBottom && $movement.data('bottom')[index] > sechzig.scroll.scrollBottom
 
-  elapsed: ($movement) ->
-    $movement.data('bottom') < sechzig.scroll.scrollBottom
+#   completed: ($movement, index) ->
+#     $movement.data('top')[index] < sechzig.scroll.scrollBottom
 
-  progress: ($movement, i) ->
-    sechzig.scroll.scrollBottom - $movement.data('top')[i]
+#   progress: ($movement, index) ->
+#     sechzig.scroll.scrollBottom - $movement.data('top')[index]
+
+#   reset: ($cue) ->
+#     $cue.find('[data-character]').each ->
+#       $movement = $(this)
+#       $keyframes = $movement.data('keyframe-start')
+#       $.each $keyframes, (index) ->
+#         index = $movement.data('completed')[index]
+#         start = if index then $keyframes.length - 1 else 0
+#         sechzig.movement.reset($movement, $cue, start, $cue.data('direction'))

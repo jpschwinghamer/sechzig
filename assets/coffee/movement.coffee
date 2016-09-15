@@ -1,12 +1,12 @@
 window.sechzig ?= {}
 
 sechzig.movement =
-  route: ($movement, i) ->
-    switch $movement.data('keyframe-type')
-      when "scrub-css"
-        sechzig.animation.scrubCSS($movement, i)
+  route: ($movement, $cue, index) ->
+    # switch $movement.data('keyframe-type')
+    #   when "scrub-css"
+    #     sechzig.animation.scrubCSS($movement, index)
     #   when "play-css"
-    #     sechzig.animation.playCSS($movement)
+    #     sechzig.animation.playCSS($movement, $cue, index)
       # when "scrub-video"
       #   sechzig.video.scrubVideo($movement, $cue)
       # when "play-video"
@@ -16,9 +16,10 @@ sechzig.movement =
       # when "draw-canvas"
       #   sechzig.canvas.drawCanvas($movement, $cue) if $movement.canvasReady
 
-  reset: ($movement) ->
-    # switch $movement.data('keyframe-type')
-    #   when "scrub-css"
-    #     sechzig.animation.setCSS($movement)
-    #   when "play-css"
-    #     sechzig.animation.setCSS($movement)
+  reset: ($movement, $cue, start, direction) ->
+    switch $movement.data('keyframe-type')
+      when "scrub-css"
+        console.log direction
+        sechzig.animation.setCSS($movement, $cue, start, direction)
+      # when "play-css"
+      #   sechzig.animation.setCSS($movement, $cue, index, direction)
