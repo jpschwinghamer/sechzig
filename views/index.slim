@@ -1,3 +1,11 @@
+.stage-progress-bar.red-bg(
+data-character
+data-keyframe-type = "scrub-css"
+data-keyframe-start = "[0.25]"
+data-keyframe-finish = "[0.75]"
+data-keyframe-translate = '[ {"x" : ["0vw", "100vw"], "y" : ["0vh", "0vh"]} ]'
+)
+
 section#scene-intro.scene-intro.scene.cue.single data-clasp="bottom-hold"
   .backing
     .marker.content
@@ -7,48 +15,28 @@ section#scene-intro.scene-intro.scene.cue.single data-clasp="bottom-hold"
         data-keyframe-type = "scrub-css"
         data-keyframe-start = "[0.5]"
         data-keyframe-finish = "[1]"
-        data-keyframe-opacity = "[ [1,-0.3] ]"
-        data-keyframe-translate = '[ {"x" : [0, 0], "y" : [0, -50]} ]'
+        data-keyframe-opacity = "[ [1,-0.5] ]"
+        data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["20px", "-20px"]} ]'
         ) Sechzig
 
 section#scene-one.scene-one.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
   .backing.inverted
     .marker.content
-      h1(
-      id = "scene-one-h1"
+      .fade(
       data-character
       data-keyframe-type = "scrub-css"
-      data-keyframe-start = "[0, 0.3]"
-      data-keyframe-finish = "[0.2, 0.5]"
-      data-keyframe-opacity = "[ [-0.3, 1], [1, -0.3] ]"
-      data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
-      ) Scrub CSS Animation
-    .marker.content
-      .grid-4
-        - for i in (1..16)
-          .column
-            .white-bg.pad-medium(
-              id = "rhombus-#{i}"
-              data-character = "rhombus"
-              data-keyframe-type = "scrub-css"
-              data-keyframe-start = "[#{0.01 * i + 0.35}, #{0.02 * i + 0.6}]"
-              data-keyframe-finish = "[0.6, 1]"
-              data-keyframe-opacity = "[ [0,1.2], [1.2,0]]"
-              data-keyframe-scale = "[ [1,1], [1,0]]"
-              )
-
-section#scene-three.scene-three.scene
-  .marker.content
-    .grid-2-at-medium.grid-col-space-none
-      .column
-        .charcoal-bg.aspect-ratio-square.inverted.display-flex.flex-valign-center.align-center
-          h1 1
-      .column
-        .accent-gray-bg.aspect-ratio-square.display-flex.flex-valign-center
-          .pad-medium
-            h3 Testing
-            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed incididunt do eiusmod. Tempor incididunt ut labore et dolore magna aliqua.
-            p Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      data-keyframe-start = "[0.01, 0.4]"
+      data-keyframe-finish = "[0.2, 0.6]"
+      data-keyframe-opacity = "[ [-0.2, 1], [1, -0.2] ]"
+      )
+        h1(
+        id = "intro h1"
+        data-character
+        data-keyframe-type = "scrub-css"
+        data-keyframe-start = "[0]"
+        data-keyframe-finish = "[0.6]"
+        data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["40px", "-40px"]} ]'
+        ) Scrub CSS Animation
 
 section#scene-four.scene-four.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
   .backing.inverted
@@ -60,7 +48,6 @@ section#scene-four.scene-four.scene.cue.charcoal-muted-bg.nonuple data-clasp="bo
       data-keyframe-start = "[0, 0.2]"
       data-keyframe-finish = "[0.1, 0.3]"
       data-keyframe-opacity = "[ [-0.3, 1], [1, -0.3] ]"
-      data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
       ) Play CSS Animation
     .marker.content
       .column
@@ -73,7 +60,7 @@ section#scene-four.scene-four.scene.cue.charcoal-muted-bg.nonuple data-clasp="bo
           data-keyframe-finish = "[0.5, 1]"
           data-keyframe-opacity = "[ [0,1.2], [1.2,0]]"
           data-keyframe-scale = "[ [1,1], [1,0]]"
-          data-keyframe-translate = '[ {"x" : [0, 0], "y" : [50, 0]}, {"x": [0,0], "y": [0,-50]} ]'
+          data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["40px", "-40px"]}, {"x" : ["0px", "0px"], "y" : ["-40px", "40px"]} ]'
           )
 
-section.scene.double
+section.scene.double.blue-bg
