@@ -2,14 +2,16 @@ window.sechzig ?= {}
 
 sechzig.stage =
   init: ->
+    sechzig.scroll.init()
     @setup()
     sechzig.raf.start()
 
   setup: ->
+    $('.stage').addClass('touch') if /iPad|iPhone|iPod/.test(navigator.userAgent)
+
     $('[data-character]').each ->
       $movement = $(this)
       $cue = $movement.closest('.cue')
-
       $cue.data('top', $cue.offset().top)
       $cue.data('bottom', $cue.offset().top + $cue.height())
       $cue.data('duration', $cue.height() + sechzig.scroll.scrollHeight)
@@ -29,13 +31,9 @@ sechzig.stage =
         $movement.data('elapsed').push(sechzig.blocking.elapsed($movement, i) )
         $movement.data('unresolved').push(false)
 
-      sechzig.movement.set($movement)
-
       $movement.on 'active',  (e, i) ->
         e.stopPropagation()
         $movement.data('active')[i] = true
-        if $movement.data('keyframe-type').startsWith('play')
-          sechzig.movement.play($movement, i)
 
       $movement.on 'inactive', (e, i) ->
         e.stopPropagation()
@@ -43,10 +41,6 @@ sechzig.stage =
         $movement.data('elapsed')[i] = sechzig.blocking.elapsed($movement, i)
         sechzig.movement.reset($movement, i)
 
-      $movement.on 'resolve', (e, i, direction) ->
-        e.stopPropagation()
-        if $movement.data('unresolved')[i] == direction
-          if direction == "normal" then sechzig.movement.play($movement, i, 'reverse') else sechzig.movement.play($movement, i, 'normal')
 
 $ ->
   sechzig.stage.init()

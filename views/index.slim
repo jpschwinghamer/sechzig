@@ -1,66 +1,30 @@
-.stage-progress-bar.red-bg(
-data-character
-data-keyframe-type = "scrub-css"
-data-keyframe-start = "[0.25]"
-data-keyframe-finish = "[0.75]"
-data-keyframe-translate = '[ {"x" : ["0vw", "100vw"], "y" : ["0vh", "0vh"]} ]'
-)
-
-section#scene-intro.scene-intro.scene.cue.single data-clasp="bottom-hold"
-  .backing
-    .marker.content
+.stage
+  section#intro.scene.single.cue.intro
+    .content.offset
       h1(
-        id = "intro h1"
-        data-character
-        data-keyframe-type = "scrub-css"
-        data-keyframe-start = "[0.5]"
-        data-keyframe-finish = "[1]"
-        data-keyframe-opacity = "[ [1,-0.5] ]"
-        data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["20px", "-20px"]} ]'
-        ) Sechzig
-
-section#scene-one.scene-one.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
-  .backing.inverted
-    .marker.content
-      .fade(
-      data-character
-      data-keyframe-type = "scrub-css"
-      data-keyframe-start = "[0.01, 0.4]"
-      data-keyframe-finish = "[0.2, 0.6]"
-      data-keyframe-opacity = "[ [-0.2, 1], [1, -0.2] ]"
-      )
-        h1(
-        id = "intro h1"
-        data-character
-        data-keyframe-type = "scrub-css"
-        data-keyframe-start = "[0]"
-        data-keyframe-finish = "[0.6]"
-        data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["40px", "-40px"]} ]'
-        ) Scrub CSS Animation
-
-section#scene-four.scene-four.scene.cue.charcoal-muted-bg.nonuple data-clasp="bottom-hold"
-  .backing.inverted
-    .marker.content
-      h1(
-      id = "scene-four-h1"
-      data-character
-      data-keyframe-type = "scrub-css"
-      data-keyframe-start = "[0, 0.2]"
-      data-keyframe-finish = "[0.1, 0.3]"
-      data-keyframe-opacity = "[ [-0.3, 1], [1, -0.3] ]"
-      ) Play CSS Animation
-    .marker.content
-      .column
-        .white-bg.aspect-ratio-rect(
-          id = "timeline-rhombus"
-          data-character = 'rhombus'
-          data-keyframe-duration = "250"
-          data-keyframe-type = "play-css"
-          data-keyframe-start = "[0.3, 0.8]"
-          data-keyframe-finish = "[0.5, 1]"
-          data-keyframe-opacity = "[ [0,1.2], [1.2,0]]"
-          data-keyframe-scale = "[ [1,1], [1,0]]"
-          data-keyframe-translate = '[ {"x" : ["0px", "0px"], "y" : ["40px", "-40px"]}, {"x" : ["0px", "0px"], "y" : ["-40px", "40px"]} ]'
-          )
-
-section.scene.double.blue-bg
+          id = "intro h1"
+          data-character
+          data-keyframe-type = "scrub-css"
+          data-keyframe-start = "[0.5]"
+          data-keyframe-finish = "[1]"
+          data-keyframe-opacity = '[ [1,0]]'
+          ) Sechzig
+  - for i in (1..10)
+    section id="scene-#{i}" class="scene cue" data-clasp="top-hold"
+      .content
+        .copy
+          h3 0
+          - for j in (1..30)
+            h4 - - -
+          h1(
+            id = "character-#{i}"
+            data-character
+            data-keyframe-type = "scrub-css"
+            data-keyframe-start = "[0 ]"
+            data-keyframe-finish = "[ 0.75 ]"
+            data-keyframe-opacity = '[ [0,1] ]'
+            data-keyframe-translate = '[ {"x" : ["0vw", "0vw"], "y" : ["300%", "-100%"]} ]'
+            ) = "Section #{i}"
+          - for k in (1..7)
+            h4 - - -
+          h3 0

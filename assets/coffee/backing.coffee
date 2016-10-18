@@ -1,82 +1,22 @@
 window.sechzig ?= {}
 
 sechzig.backing =
+  init: ->
+    @bottomOffset = if /iPad|iPhone|iPod/.test(navigator.userAgent) then '-69px' else '0'
+
   set: ($cue) ->
-    switch $cue.data('clasp')
-      when "top"
-        if sechzig.scroll.scrollTop < $cue.data('top')
-          styles =
-            position : 'relative'
-            bottom : 0
-            top : 0
-        else if sechzig.scroll.scrollBottom <= $cue.data('bottom')
-          styles =
-            position : 'fixed'
-            bottom : 'auto'
-            top : 0
-        else
-          styles =
-            position : 'absolute'
-            bottom : 0
-            top : 'auto'
+    $backing = $cue.find('.backing')
+    if $cue.data('clasp') == 'top-hold'
+      if $cue.data('top') < sechzig.scroll.scrollBottom
+          $backing.css({position: 'absolute', top: 0, bottom: 'auto'})
+      if $cue.data('bottom') < sechzig.scroll.scrollBottom
+        $backing.css({position: 'absolute', top: 'auto', bottom: @bottomOffset})
+      if $cue.data('top') <= sechzig.scroll.scrollTop && $cue.data('bottom') >= sechzig.scroll.scrollBottom
+        $backing.css({position: 'fixed', top: 0, bottom: 0})
 
-      when "top-hold"
-        if sechzig.scroll.scrollTop > $cue.data('bottom')
-          styles =
-            position : 'relative'
-            bottom : 0
-            top : 'auto'
-            visibility: 'hidden'
-        # else
-        else if sechzig.scroll.scrollTop <= $cue.data('top')
-          styles =
-            position : 'absolute'
-            bottom : 'auto'
-            top : 0
-            visibility: 'visible'
-        else
-          styles =
-            position : 'fixed'
-            bottom : 'auto'
-            top : 0
-            visibility: 'visible'
 
-      when "bottom"
-        if sechzig.scroll.scrollBottom < $cue.data('top')
-          styles =
-            position : 'relative'
-            bottom : 0
-            top : 0
-        else if sechzig.scroll.scrollBottom <= $cue.data('bottom')
-          styles =
-            position : 'fixed'
-            bottom : 'auto'
-            top : 0
-        else
-          styles =
-            position : 'absolute'
-            bottom : 0
-            top : 'auto'
+      # if $cue.data('top') < sechzig.scroll.scrollBottom && $cue.data('bottom') > sechzig.scroll.scrollBottom
+      #   $backing.css({position: 'fixed', top: 0})
 
-      when "bottom-hold"
-        if sechzig.scroll.scrollBottom < $cue.data('top')
-          styles =
-            position : 'relative'
-            bottom : 0
-            top : 0
-            visibility: 'hidden'
-        else if sechzig.scroll.scrollTop >= $cue.data('bottom')
-          styles =
-            position : 'absolute'
-            bottom : 0
-            top : 'auto'
-            visibility: 'hidden'
-        else
-          styles =
-            position : 'fixed'
-            bottom : 'auto'
-            top : 0
-            visibility: 'visible'
-
-    # apply styles
-    $cue.find('.backing').css styles
+$ ->
+  sechzig.backing.init()
