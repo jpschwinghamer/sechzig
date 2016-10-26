@@ -9,5 +9,6 @@ sechzig.resize =
       sechzig.scroll.update()
       sechzig.raf.stop()
       sechzig.stage.init()
+
 $ ->
   sechzig.resize.init()

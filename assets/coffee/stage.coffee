@@ -2,12 +2,14 @@ window.sechzig ?= {}
 
 sechzig.stage =
   init: ->
+    sechzig.detector.init()
     sechzig.scroll.init()
-    @setup()
+    sechzig.stage.setup()
+    sechzig.backing.init()
     sechzig.raf.start()
 
   setup: ->
-    $('.stage').addClass('touch') if /iPad|iPhone|iPod/.test(navigator.userAgent)
+    $('.stage').addClass('touch') if sechzig.detector.iOS
 
     $('[data-character]').each ->
       $movement = $(this)

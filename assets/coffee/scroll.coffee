@@ -2,7 +2,7 @@ window.sechzig ?= {}
 
 sechzig.scroll =
   init: ->
-    @stage = if /iPad|iPhone|iPod/.test(navigator.userAgent) then $('.stage') else $(window)
+    @stage = if sechzig.detector.iOS then $('.stage') else $(window)
     @scrollHeight = $(window).height()
     @scrollTop = @stage.scrollTop()
     @scrollBottom = @scrollTop + @scrollHeight

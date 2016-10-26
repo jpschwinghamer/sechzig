@@ -10,6 +10,5 @@ sechzig.cue =
   monitor: ->
     $('.cue').each ->
       $cue = $(this)
-      if sechzig.cue.active(($cue))
-        sechzig.cue.progress($cue)
-        sechzig.backing.set($cue) if $cue.data('clasp')?
+      sechzig.backing.set($cue) if $cue.data('backing')?
+      sechzig.cue.progress($cue) if sechzig.cue.active(($cue))
