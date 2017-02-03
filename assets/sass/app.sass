@@ -9,18 +9,17 @@ $ios-offset: 35px
 body
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
-  font-size: 8vw
+  font-size: 7vw
   color: $black
 
 .stage.touch
-  z-index: 2
+  z-index: 1
   height: 100vh
   width: 100vw
   overflow: scroll
   -webkit-overflow-scrolling: touch
 
 .scene
-  z-index: 1
   &:nth-child(even)
     background-color: $black
     color: white
@@ -37,6 +36,12 @@ body
 
 .triple
   height: 300vh
+
+.quadruple
+  height: 400vh
+
+.septuple
+  height: 700vh
 
 [data-sticky]
   position: sticky

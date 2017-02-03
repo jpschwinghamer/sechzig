@@ -6,73 +6,59 @@ main.stage
         data-keyframe-type = "scrub-css"
         data-keyframe-start = "[0.5]"
         data-keyframe-finish = "[1]"
-        data-keyframe-opacity = '[ [1,0] ]'
-        ) Hamburger
-  
-  section.scene.triple.cue
+        ) Sechzig
+    
+  section.scene.septuple.cue
     .content.offset(data-sticky)
       h1(
         class="one"
         data-character
         data-keyframe-type = "scrub-css"
-        data-keyframe-start = "[0.25]"
-        data-keyframe-finish = "[0.5]"
+        data-keyframe-start = "[0.1]"
+        data-keyframe-finish = "[0.2]"
         data-keyframe-opacity = '[ [1,0] ]'
-        ) Illinois
+        ) Cologne
       h1(
         class="two"
         data-character
         data-keyframe-type = "scrub-css"
-        data-keyframe-start = "[0.5]"
-        data-keyframe-finish = "[0.75]"
-        data-keyframe-opacity = '[ [0,1] ]'
-        ) Official
-      / h1(
-      /   class="three"
-      /   data-character
-      /   data-keyframe-type = "scrub-css"
-      /   data-keyframe-start = "[0.8]"
-      /   data-keyframe-finish = "[0.9]"
-      /   data-keyframe-opacity = '[ [0,1] ]'
-      /   ) 3
+        data-keyframe-start = "[0.2, 0.4]"
+        data-keyframe-finish = "[0.3, 0.5]"
+        data-keyframe-opacity = '[ [0,1], [1,0] ]'
+        ) Frankfurt
+      h1(
+        class="three"
+        data-character
+        data-keyframe-type = "scrub-css"
+        data-keyframe-start = "[0.5, 0.7]"
+        data-keyframe-finish = "[0.6, 0.8]"
+        data-keyframe-opacity = '[ [0,1], [1,0] ]'
+        ) Essen
   
-  section.scene.triple.cue
+  section.scene.single.cue
     .content.offset(data-sticky)
       h1(
-        class="one"
-        data-character
-        data-keyframe-type = "scrub-css"
-        data-keyframe-start = "[0.25]"
-        data-keyframe-finish = "[0.5]"
-        data-keyframe-opacity = '[ [1,0] ]'
-        ) Macrophages
-      h1(
-        class="two"
         data-character
         data-keyframe-type = "scrub-css"
         data-keyframe-start = "[0.5]"
-        data-keyframe-finish = "[0.75]"
-        data-keyframe-opacity = '[ [0,1] ]'
-        ) 0123456789
-
-  
-  
-  / - for i in (1..10)
-  /   section id="scene-#{i}" class="scene cue" data-clasp="top-hold"
-  /     .content
-  /       .copy
-  /         h3 0
-  /         - for j in (1..30)
-  /           h4 - - -
-  /         h1(
-  /           id = "character-#{i}"
-  /           data-character
-  /           data-keyframe-type = "scrub-css"
-  /           data-keyframe-start = "[0 ]"
-  /           data-keyframe-finish = "[ 0.75 ]"
-  /           data-keyframe-opacity = '[ [0,1] ]'
-  /           data-keyframe-translate = '[ {"x" : ["0vw", "0vw"], "y" : ["300%", "-100%"]} ]'
-  /           ) = "Section #{i}"
-  /         - for k in (1..7)
-  /           h4 - - -
-  /         h3 0
+        data-keyframe-finish = "[1]"
+        ) Sechzig
+/ - for i in (1..10)
+/   section id="scene-#{i}" class="scene cue" data-clasp="top-hold"
+/     .content
+/       .copy
+/         h3 0
+/         - for j in (1..30)
+/           h4 - - -
+/         h1(
+/           id = "character-#{i}"
+/           data-character
+/           data-keyframe-type = "scrub-css"
+/           data-keyframe-start = "[0 ]"
+/           data-keyframe-finish = "[ 0.75 ]"
+/           data-keyframe-opacity = '[ [0,1] ]'
+/           data-keyframe-translate = '[ {"x" : ["0vw", "0vw"], "y" : ["300%", "-100%"]} ]'
+/           ) = "Section #{i}"
+/         - for k in (1..7)
+/           h4 - - -
+/         h3 0
