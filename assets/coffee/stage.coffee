@@ -5,7 +5,6 @@ sechzig.stage =
     sechzig.detector.init()
     sechzig.scroll.init()
     sechzig.stage.setup()
-    sechzig.backing.init()
     sechzig.raf.start()
 
   setup: ->
